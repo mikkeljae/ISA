@@ -1,0 +1,38 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+
+\begin{document}
+\section*{Developing an FPGA Based Robot for Swarm Research}
+Research in swarming behaviour is often done exclusively in simulation. 
+This is a problem because it ignores the embodied properties of the animals we are trying to replicate. 
+In this project a small robot will be developed. 
+A former project listed the requirements for building a swarm of ten robots. 
+It was found that communication using sound was the most suitable solution and that implementing the signal processing at sufficient speeds would be challenging.\\
+
+In this project the existing robot platform will be converted to run on a Xilinx Zynq processor. 
+The advantage of this is that sound processing can be parallelised to a large extend, but at the cost of added complexity. 
+The goal is to encapsulate the complex programmable logic in configurable IP cores and write the necessary linux drivers to allow the robot to be operated as a linux device.\\
+
+The output of the project is a robot and a written report in English.
+
+\subsection*{Learning goals}  
+
+\paragraph*{Knowledge:}~\\
+\begin{itemize}
+	\item Extensive understanding of the collaboration between PL and PS in the Zynq chip.
+	\item Extensive knowledge about how to structure and write linux drivers for embedded electronics.
+\end{itemize}
+  
+\paragraph*{Skills:}~\\
+\begin{itemize}
+	\item Able to use the Vivado suite and design flow to create advanced solutions in VHDL and C.
+	\item Able to develop and test software integrated in linux based systems.
+\end{itemize}
+ 
+\paragraph*{Competencies:}~\\
+\begin{itemize}
+	\item Analysing constraints and requirements for complex embedded systems.
+	\item Disseminating desicions and findings in a interdisciplinary research project.
+\end{itemize}
+
+\end{document}

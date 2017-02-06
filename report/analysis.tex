@@ -1,0 +1,85 @@
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{picture}
+\usepackage{dcolumn}
+ 
+%Information to be included in the title page:
+\title{Real-Time Systems}
+\author{Thomas S. Christensen, Mikkel Skaarup Jaedicke}
+\date{Jan, 2017} 
+ 
+\begin{document}
+A platform for research of flocking behaviour in swarms of robots was developed throughout the bachelor's thesis , ``Investigating Bio-inspired Object Avoidance in a Swarm of Mobile Robots''.
+Throughout that project an analysis was carried out in order to determine the requirements of the system.
+This project aims to replace the Raspberry Pi with an FPGA platform, namely a Zynq platform.
+Using an FPGA/ARM combination is believed to better enable the use of swarm algorithms.
+Additionally, since the completion of the bachelor's thesis, a new type of microphone has been procured.
+This type is digital, as opposed to the previous analogue microphones.
+Much of the electronics developed for that project is developed so as to work around the shortcomings of the Raspberry Pi, as well as the amplifier circuits required for the microphones.
+This project will redesign the electronics where necessary in order to accommodate the changes on the platform.
+
+\section{Analysis} % (fold)
+\label{sec:analysis}
+This analysis will seek to expand on the analysis carried out in the aforementioned thesis.
+Some of the conclusions reached are no longer valid due to the new platform.
+It is necessary to determine which parts will need redesign and possibly, what new features will need to be added altogether.
+
+\subsection{Mechanical Platform} % (fold)
+\label{sub:mechanical_platform}
+The chassis, battery and motors, including their encoders remain unchanged and as such will not be discussed further in this context.
+% subsection mechanical_platform (end)
+
+\subsection{Microphones} % (fold)
+\label{sub:microphones}
+As mentioned, a new set of digital microphones has been procured for use with this robot. 
+The previous electronic circuits developed include an amplifier section for the analogue microphones.
+This is no longer necessary.
+The analysis did find, however, that the multilateration algorithm is more robust when the microphones are further apart therefore, the new microphones will be placed similarly to the previous set.
+% subsection microphones (end)
+
+\subsection{Click Generator} % (fold)
+\label{sub:click_generator}
+Previously, it was attempted to generate a click using a piezo transducer.
+The attempt did not manage to produce a sufficiently loud click.
+A piezo transducer deforms when a voltage is applied to it.
+A higher voltage increases the deformation.
+By repeatedly pulsing the transducer with a sufficiently high voltage, it should be possible to generate a clicking noise.
+Some type of circuit will have to be developed to generate the necessary voltage spike.
+% subsection click_generator (end)
+
+\subsection{PWM Generation} % (fold)
+\label{sub:pwm_generation}
+The Raspberry Pi previously used has support only for one PWM channel.
+In order to fully control the robot, four channels are required.
+For this reason it was chosen to use an external PWM generator which can be communicated with through I2C.
+Moving to an FPGA based platform, this is no longer necessary, as it is possible to add as many PWM channels as required in VHDL.
+% subsection pwm_generation (end)
+
+\subsection{Motor Driver} % (fold)
+\label{sub:motor_driver}
+The BD6222HFP was chosen as the motor driver in the previous project.
+This is a full-bridge capable of continuously supplying sufficient power to drive the motors on the robot.
+While the driver is maintained, a new board will have to be devised to house this driver.
+% subsection motor_driver (end)
+
+\subsection{Power and Current limitations} % (fold)
+\label{sub:power_and_current_limitations}
+It was chosen to use linear regulators to supply the 5 and 3.3 volt rails.
+This project will analyse whether the added cost of using switch-mode converters is worth the additional cost.
+A number of fuses were added to limit the current to the motors as well as the current draw from the battery.
+The battery however, includes a ``safety board'' which limits the maximum possible current draw, making this fuse irrelevant.
+The fuses on the motors can be excluded by instead running a check in software such that when a voltage is applied, the encoder signal must represent movement, or the voltage will be cut.
+Allowing overcurrent for a short period will not damage the motors and therefore this approach is acceptable.
+% subsection power_and_current_limitations (end)
+
+\subsection{Embedded Platform} % (fold)
+\label{sub:embedded_platform}
+
+% subsection embedded_platform (end)
+% section analysis (end)
+\end{document}
