@@ -1,0 +1,38 @@
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+
+%Information to be included in the title page:
+\title{LEO2 - Project Description}
+\author{Thomas S. Christensen, Mikkel Skaarup Jaedicke}
+\date{Jan, 2017} 
+ 
+\begin{document}
+\section*{Project Description} % (fold)
+\label{sec:project_description}
+
+This project aims at developing a device driver for a small robot.
+\\~\\
+The robot is developed in order to assist in swarming behaviour research.
+It consists of microphones and a sound generator for localisation, two motors and a Zynq based platform for control.
+The general motor control and decoding of microphone signals will be done in the FPGA part of the Zynq.
+In order to ease development of swarming algorithms a higher level interface is desired. 
+The Zynq chip has a dual core ARM processor, capable of running Linux.
+In this project a device driver for Linux will be written to supply the desired interface.
+\\~\\
+In order to successfully write a Linux device driver the authors need to gain knowledge on the relevant parts of the Linux kernel, the general techniques required to develop kernel modules as well as setting up device trees, building kernels, FSBL bootloader and U-boot.
+\\~\\
+The developed device driver should enable the following features:
+\begin{itemize}
+	\item Set translational velocity
+	\item Set rotational velocity
+	\item Generate click
+	\item Read microphone data
+	\item Access debug LEDs 
+\end{itemize}
+% section project_description (end)
+
+
+
+
+
+\end{document}
