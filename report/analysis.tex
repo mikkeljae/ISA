@@ -32,6 +32,7 @@ It is necessary to determine which parts will need redesign and possibly, what n
 \subsection{Mechanical Platform} % (fold)
 \label{sub:mechanical_platform}
 The chassis, battery and motors, including their encoders remain unchanged and as such will not be discussed further in this context.
+Thoughts about battery.
 % subsection mechanical_platform (end)
 
 \subsection{Microphones} % (fold)
@@ -79,6 +80,7 @@ Allowing overcurrent for a short period will not damage the motors and therefore
 
 \subsection{Embedded Platform} % (fold)
 \label{sub:embedded_platform}
+<<<<<<< HEAD
 Previously a Raspberry Pi was used to power the platform.
 As mentioned, it has been requested that the system is ported to a Zynq platform.
 Currently available to the authors are the Zybo and the Zynqberry platforms.
@@ -99,11 +101,21 @@ Below is an overview of the pros and cons of the two platforms.
 \end{itemize}
 Both platforms are based around the same chip and should therefore be similar in functionality. The authors, however, do have prior knowledge with the Zybo platform.
 An up-to-date Linux system has been made to function with the Zybo.
-% subsection embedded_platform (end)
 
+% subsection embedded_platform (end)
 \subsection{Electronics Board} % (fold)
 \label{sub:electronics_board}
 In order to accommodate the new electronics a new board will have to be designed.
+\begin{itemize}
+	\item Motor controller
+	\item Piezo with or without drive circuit
+	\item Voltage regulater 5V or DC/DC converter 5V
+	\item General wiring, passthrough of encoder, microphone signals, 
+	\item Maybe LEDs including LEDs
+	\item Cable connectors and battery connector
+	\item 
+\end{itemize}
+
 % subsection electronics_board (end)
 % section analysis (end)
 \end{document}
