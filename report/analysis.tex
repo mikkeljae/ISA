@@ -70,7 +70,7 @@ While the driver is maintained, a new board will have to be devised to house thi
 
 \subsection{Power and Current limitations} % (fold)
 \label{sub:power_and_current_limitations}
-It was chosen to use linear regulators to supply the 5 and 3.3 volt rails.
+It was chosen to use linear regulators to supply the 5 and 3.3V rails.
 This project will analyse whether the added cost of using switch-mode converters is worth the additional cost.
 A number of fuses were added to limit the current to the motors as well as the current draw from the battery.
 The battery however, includes a ``safety board'' which limits the maximum possible current draw, making this fuse irrelevant.
@@ -86,7 +86,7 @@ Currently available to the authors are the Zybo and the Zynqberry platforms.
 Both are based around the Zynq-7010 chip.
 A number of GPIO ports are required; four pins for PWM for the motors, four pins for encoders, four pins for microphones, one for a piezo transducer.
 This amounts to a minimum of 13 pins required.
-Potentially, an additional number of pins may be used to interface to debugging LED's. 
+Potentially, an additional number of pins may be used to interface to debugging LED's.  
 Below is an overview of the pros and cons of the two platforms.
 \begin{itemize}
 	\item \textbf{Zynqberry:} As the name implies, this platform is made to conform with the physical layout of the Raspberry Pi.
@@ -105,14 +105,18 @@ An up-to-date Linux system has been made to function with the Zybo.
 \subsection{Electronics Board} % (fold)
 \label{sub:electronics_board}
 In order to accommodate the new electronics a new board will have to be designed.
+The board must support a number of components and circuits, listed below.
 \begin{itemize}
-	\item Motor controller
-	\item Piezo with or without drive circuit
-	\item Voltage regulater 5V or DC/DC converter 5V
-	\item General wiring, passthrough of encoder, microphone signals, 
-	\item Maybe LEDs including LEDs
-	\item Cable connectors and battery connector
-	\item 
+	\item \textbf{Motor controller:} The BD6222HFP, a full-bridge motor controller, is used to generate the drive signals for the motors.
+	\item \textbf{Piezo:} Generating a click is done using a piezo transducer.
+	A transducer with an internal drive circuit will be used.
+	\item \textbf{5V DC/DC Converter:} The PTH08080W will be used to generate the 5V rail necessary to drive the embedded platform.
+	\item \textbf{Connections:} A number of connections has to be present on the board.
+	Passthrough for the microphone add-in board.
+	Passthrough for the motor encoders.
+	Connection for battery.
+	\item \textbf{Debug LEDs:} Support for four LEDs for debugging is required.
+	The necessary drive circuitry must be added.
 \end{itemize}
 
 % subsection electronics_board (end)
