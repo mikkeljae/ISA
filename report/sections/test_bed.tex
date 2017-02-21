@@ -1,0 +1,26 @@
+%!TEX root = ../main.tex
+
+\section{Test Bed}
+A simple setup for testing pendulum systems will be devised.
+This will assist in better understanding the control problems facing the authors in creating a double pendulum control system.
+During the process of building the setup, it is expected that some knowledge will be gained that will help in the design of the final system.
+In order to properly design the test bed it is necessary to first determine what the expected outcome is from the testing.
+Clearly, the goal is to rigorously determine the requirements of the final system.
+The requirements fall into a few categories:
+
+\begin{itemize}
+	\item \textbf{Mechanical:} The difficulty of the control is expected to be closely linked to the rigidity of the platform.
+	In the ideal case, the cart will move only along one axis, say the x-axis.
+	In the real case however, there is likely to be issues such as wobble along the remaining axes due to lack of rigidity in the drive mechanism.
+	The test bed will allow a thorough investigation of the requirements appertaining these issues.
+	\item \textbf{Electromechanical:} A number of electromechanical devices are required on the final platform: encoders, motors and switches.
+	Using the test bed, experimentation can be done on the required resolution and sampling of encoders, the required speed of the motor in order to fulfil different control scenarios such as full swing-up or maintaining stability and finally, what switches are required, or desired, in the final system.
+	\item \textbf{Control:} As previously mentioned, the real world is littered with inaccuracies which cannot reasonably be accounted for in simulations.
+	While much of the design of the state space model and control scheme will be designed using a model, it is necessary to repeatedly verify the findings on a real system.
+	While the test bed to be designed is unlikely to have the same characteristics as the final system, it will provide the authors with experience in applying the control algorithms to a real system.
+	The test bed should be able to, at least to some extent, perform the same manoeuvres as will be the case on the final system.
+	This includes maintaining stability of a pendulum in the upright position and performing a full swing-up of the pendulum.
+\end{itemize}
+
+Initially, the test bed is comprised of four parts, a drive mechanism, a cart, a pendulum and an encoder.
+These will be discussed in the subsequent sections.
