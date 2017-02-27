@@ -1,4 +1,4 @@
- %!TEX root = ../main.tex
+%!TEX root = ../main.tex
 A platform for research of flocking behaviour in swarms of robots was developed throughout the bachelor's thesis, ``Investigating Bio-inspired Object Avoidance in a Swarm of Mobile Robots''.
 Throughout that project an analysis was carried out in order to determine the requirements of the system.
 This project aims to replace the Raspberry Pi with an FPGA platform, namely a Zynq platform.
@@ -83,30 +83,6 @@ The fuses on the motors can be excluded by instead running a check in software s
 Allowing overcurrent for a short period will not damage the motors and therefore this approach is acceptable.
 % subsection power_and_current_limitations (end)
 
-\subsection{Embedded Platform} % (fold)
-\label{sub:embedded_platform}
-Previously a Raspberry Pi was used to power the platform.
-As mentioned, it has been requested that the system is ported to a Zynq platform.
-Currently available to the authors are the Zybo and the Zynqberry platforms.
-Both are based around the Zynq-7010 chip.
-A number of GPIO ports are required; four pins for PWM for the motors, four pins for encoders, four pins for microphones, one for a piezo transducer.
-This amounts to a minimum of 13 pins required.
-Potentially, an additional number of pins may be used to niterface to debugging LED's.
-Below is an overview of the pros and cons of the two platforms.
-\begin{itemize}
-	\item \textbf{Zynqberry:} As the name implies, this platform is made to conform with the physical layout of the Raspberry Pi.
-	Using this platform would allow the reuse of the mounting solution developed for the Raspberry Pi.
-	At 26 total GPIO pins, the Zynqberry can supply the required GPIO.
-	\item \textbf{Zybo:} This platform is significantly larger than the Zynqberry.
-	The different form factor requires that a new mounting solution is devised.
-	Additionally, the increased size means that the board will have to be mounted above the tracks to avoid interference.
-	While this is an inconvenience, it should not pose an issue in collisions as the edges of the board are still within the bounds of the robot.
-	At 48 total GPIO pins, the Zybo can supply the required GPIO.
-\end{itemize}
-Both platforms are based around the same chip and should therefore be similar in functionality. The authors, however, do have prior knowledge with the Zybo platform.
-An up-to-date Linux system has been made to function with the Zybo.
-
-% subsection embedded_platform (end)
 \subsection{Electronics Board} % (fold)
 \label{sub:electronics_board}
 In order to accommodate the new electronics a new board will have to be designed.
@@ -210,6 +186,4 @@ Fast driving         & 7.5                         & 6.3                        
 \end{table}
 
 % subsection power_calculations (end)
-
-
 % section analysis (end)
