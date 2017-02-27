@@ -5,14 +5,15 @@ Previously a Raspberry Pi was used to power the platform.
 As mentioned, it has been requested that the system is ported to a Zynq platform.
 Currently available to the authors are the Zybo and the Zynqberry platforms.
 Both are based around the Zynq-7010 chip.
-A number of GPIO ports are required; four pins for PWM for the motors, four pins for encoders, four pins for microphones, one for a piezo transducer.
-This amounts to a minimum of 13 pins required.
-Potentially, an additional number of pins may be used to niterface to debugging LED's.
+A number of GPIO ports are required; seven pins for PWM for the motors, four pins for encoders, four pins for microphones, one for a piezo transducer and six for two RGB LEDs.
+This amounts to a minimum of 22 pins required.
+%Potentially, an additional number of pins may be used to interface to debugging LED's.
 Below is an overview of the pros and cons of the two platforms.
 \begin{itemize}
 	\item \textbf{Zynqberry:} As the name implies, this platform is made to conform with the physical layout of the Raspberry Pi.
 	Using this platform would allow the reuse of the mounting solution developed for the Raspberry Pi.
-	At 26 total GPIO pins, the Zynqberry can supply the required GPIO\@.
+	At 26 total GPIO pins, the Zynqberry can supply the required GPIO, but has nearly no pins if extra sensors or hardware is needed in the future.
+	When searching for information on this platform it was found that there is not a lot of documentation made by neither the manufacturers or the community.
 	\item \textbf{Zybo:} This platform is significantly larger than the Zynqberry.
 	The different form factor requires that a new mounting solution is devised.
 	Additionally, the increased size means that the board will have to be mounted above the tracks to avoid interference.
@@ -21,15 +22,18 @@ Below is an overview of the pros and cons of the two platforms.
 	\item \textbf{MicroZed:}
 	This platform is within the confines of the robot platform, but has a different formfactor than the Raspberry Pi and therefore the mounting solution would need a re-design.
 	It can be used as a stand-alone evaluation board, but needs to be combined with a carrier card if the PLs I/O pins are to be used.
-	This is because the I/O banks on the Zynq chip needs external powering, that the carrier card should supply.
-	The I/O pins on the MicroZed are accessed through two 100-pin micro headers.
+	This is because the I/O banks on the Zynq chip needs external powering, that the carrier card needs to supply.
+	The 100 I/O pins on the MicroZed are accessed through two micro headers.
 	The company behind the MicroZed also ships different carrier boards that can be used.
-	If a custom carrier board is needed circuitry for control signals and power needs to be developed.
-
+	If a custom carrier board is needed, circuitry for control signals and power needs to be developed.
+	The online documentation for the MicroZed and carrier card is thorough and plentyfull including user guides, hardware guides, schematics, bill of materials.
+	The platform also has a much larger community than the Zynqberry.
 \end{itemize}
-Both platforms are based around the same chip and should therefore be similar in functionality.
-The authors, however, do have prior knowledge with the Zybo platform.
-An up-to-date Linux system has been made to function with the Zybo.
+%All three platforms are based around the same chip and should therefore be similar in functionality.
+%The authors, however, do have prior knowledge with the Zybo platform.
+%An up-to-date Linux system has been made to function with the Zybo.
+The MicroZed is found to be the best choice for this project.
+Mainly because it is within the confines of the robot platform, gives access to 100 I/O pins and has solid documentation.
 
 \subsubsection*{MicroZed Carrier Card}
 This section will define the requirements for a MicroZed carrier card.
