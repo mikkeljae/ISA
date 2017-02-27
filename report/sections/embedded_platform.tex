@@ -27,7 +27,22 @@ Below is an overview of the pros and cons of the two platforms.
 	If a custom carrier board is needed circuitry for control signals and power needs to be developed.
 
 \end{itemize}
-Both platforms are based around the same chip and should therefore be similar in functionality. The authors, however, do have prior knowledge with the Zybo platform.
+Both platforms are based around the same chip and should therefore be similar in functionality.
+The authors, however, do have prior knowledge with the Zybo platform.
 An up-to-date Linux system has been made to function with the Zybo.
+
+\subsubsection*{MicroZed Carrier Card}
+This section will define the requirements for a MicroZed carrier card.
+MicroZed provides a carrier card design guide~\cite{design_carrier} that describes the requirements.
+It describes how to utilize the Zynq chip on the MicroZed board.
+In this project only a number of general I/Os and the two ADCs are needed.
+
+\begin{itemize}
+	\item Anti-aliasing filters for ADC inputs
+	\item Power for MicroZed board and Zynq I/O banks 34 and 35.
+	\item Correct power sequencing on boot
+	\item Passthrough of Zynq bank I/Os
+	\item Microheader connection to MicroZed
+\end{itemize}
 
 % subsection embedded_platform (end)
