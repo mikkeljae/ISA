@@ -1,0 +1,88 @@
+UG585 describes booting Zynq sequence.
+
+Bios (hardcoded) -> FSBL (we compile) -> u-boot (we compile) -> Linux kernel (we compile) -> userspace
+
+Kernel | device tree | HW
+
+Device tree:
+Based on bindings. Text string that describes hardware. When kernel boots it looks through drivers and device tree.
+All information that the driver need should be in the device tree.
+We need to compile this ourselves.
+
+Boot image:
+.bit file
+.elf (u-boot)
+device tree
+fsbl
+
+
+
+
+Method:
+
+http://www.wiki.xilinx.com/Build+kernel
+
+arm-xilinx-linux-gnueabi-
+
+error: curses.h: No such file or directory
+answer: apt-get install libncurses5-dev libncursesw5-dev
+
+sudo apt-get install u-boot-tools
+
+
+sudo apt-get install flex
+sudo apt-get install libssl-dev
+sudo apt-get install device-tree-compiler ??
+
+
+
+
+Leons method:
+
+new application project -> fsbl
+import Leons devicetree.dts
+
+
+Rename to u-boot.elf
+
+mikkel@mikkel-MacBook:~/vivado/device_tree/device_tree.sdk/device_tree_bsp_0$ dtc -I dts -O dtb -o devicetree.dtb devicetree.dts
+
+
+Step ?: Partitioning your Secure Digital card
+
+There are a couple of ways to do this, the easier way is to use Gparted.
+A second way is to use the command line tool fdisk.
+If you do not have gparted it is fairly easy to download and install.
+Type sudo apt-get install gparted to install it and sudo gparted to run it.
+Once you have it install plug in your SD card and select it from the drop down window in the top left.
+If you have any information on the SD card make sure to back it up otherwise select the partition tab and unmount the partition then select and delete the partition.
+Select the check mark that appears, confirming you wish to delete the partition. Create two new partitions, the first with a beginning offset of 4 MiB.
+The first partition should be FAT32 and be 1 GiB, the second partition should be ext4 and can take the remaining space.
+
+
+
+På SD-kortet skal ligge:
+- BOOT
+  - boot.bin
+  - devicetree.dtb
+  - uImage
+- ROOT_FS
+  - binary (linaro)
+
+
+mount sd card
+go to /etc/network/interfaces
+
+iface eth0 inet static
+address 192.168.10.1
+netmask 255.255.255.0
+
+kernel location (uImage)
+mikkel@mikkel-MacBook:~/Downloads/linux-xlnx/arch/arm/boot$
+
+
+På min com:
+sudo service network-manager stop
+sudo ifconfig lo 192.168.10.10 netmask 255.255.255.0
+ping 192.168.10.1
+YAAAAY!!!
