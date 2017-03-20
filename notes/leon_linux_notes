@@ -16,6 +16,9 @@ device tree
 fsbl
 
 
+U-Boot:
+http://www.wiki.xilinx.com/Build+U-Boot
+Remember pre-requisites
 
 
 Method:
@@ -28,8 +31,6 @@ error: curses.h: No such file or directory
 answer: apt-get install libncurses5-dev libncursesw5-dev
 
 sudo apt-get install u-boot-tools
-
-
 sudo apt-get install flex
 sudo apt-get install libssl-dev
 sudo apt-get install device-tree-compiler ??
@@ -67,12 +68,12 @@ På SD-kortet skal ligge:
   - devicetree.dtb
   - uImage
 - ROOT_FS
-  - binary (linaro)
+  - binary (linaro) (ikke binary folder, men alt andet)
 
 
 mount sd card
 go to /etc/network/interfaces
-
+auto eth0
 iface eth0 inet static
 address 192.168.10.1
 netmask 255.255.255.0
@@ -86,3 +87,44 @@ sudo service network-manager stop
 sudo ifconfig lo 192.168.10.10 netmask 255.255.255.0
 ping 192.168.10.1
 YAAAAY!!!
+
+
+
+
+
+
+
+
+
+
+
+
+
+Senere:
+Leons filer virker til at lave .bin fil.
+Vores .bit fil virker IKKE!
+Ellers virker vores filer til at lave .bin fil.
+
+
+
+brug minicom til at få text fra Zybo.
+
+Der skal ændres i zynq-common.h for at få den til at undlade at ??
+Se nedenstående: (søg efter "sdboot")
+
+http://fpga.org/2013/05/24/yet-another-guide-to-running-linaro-ubuntu-desktop-on-xilinx-zynq-on-the-zedboard/
+
+dit include/configs/zynq_common.h to tweak the u-boot boot script so that it doesn’t try to load a ramdisk image from SD and doesn’t try to pass it to “bootm”:
++              "sdboot=echo Copying Linux from SD to RAM...;" 
++                              "mmcinfo;" 
++                              "fatload mmc 0 0x3000000 ${kernel_image};" 
++                              "fatload mmc 0 0x2A00000 ${devicetree_image};" 
++                              "bootm 0x3000000 - 0x2A00000" 
+U-boot will therefore launch the kernel with bootm 0x3000000 – 0x2A00000 The all-important ‘–‘ tells u-boot (and the kernel) there is no ramdisk filesystem (so don’t load one!) Instead it will use the bootargs from the devicetree.dtb and will use the Linaro ext4 filesystem /dev/mmcblk0p2 from the SD card, as desired. (See below.)
+Configure: $ make zynq_zed_config
+
+
+Byg kernen med zynq_zybo_config
+
+Problemet er at vores kernel er nyere end Leons kernel og af en eller anden grund "finder" den ikke ethernet ordentligt. Hmmm. Mystisk....
+
