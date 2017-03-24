@@ -46,7 +46,7 @@ import Leons devicetree.dts
 
 Rename to u-boot.elf
 
-mikkel@mikkel-MacBook:~/vivado/device_tree/device_tree.sdk/device_tree_bsp_0$ dtc -I dts -O dtb -o devicetree.dtb devicetree.dts
+mikkel@mikkel-MacBook:~/vivado/device_tree/device_tree.sdk/device_tree_bsp_0$ dtc -I dts -O dtb -o devicetree.dtb devicetree.dtsls
 
 
 Step ?: Partitioning your Secure Digital card
