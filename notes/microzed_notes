@@ -1,0 +1,6 @@
+u-boot:
+make zynq_microzed_config
+make
+
+Board files:
+http://zedboard.org/content/board-definition-files-0

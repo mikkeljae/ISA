@@ -2,7 +2,16 @@
 \subsection{Carrier Card Design}
 \label{sub:carrier_design}
 
-\begin{sidewaystable}
+
+\textit{This is very badly written. Only meant as notes.}\\
+To maintain proper power off sequencing \cite{design_carrier} VCCIO\_EN needs to be turned pulled low before PWR\_EN goes low.
+This it done with a small RC circuit that needs to be charged before PWR\_EN goes low. 
+The inhibit signal of the swarmbots DC/DC converter needs to be pulled low after the two other signals. Therefore a slower charging RC circuit is in front of the MOSFET that pulls it low.
+
+
+
+
+\begin{table}
 
 \centering
 \caption{My caption}
@@ -25,9 +34,9 @@
 13      & Inductor               & 1        & SRN5020-2R2Y          & SRN5020-2R2Y          &                                                                                                                                                                                                              \\ \hline
 14      & DNP                    &          &                       &                       &                                                                                                                                                                                                              \\ \hline
 \end{tabular}	
-\end{sidewaystable}
+\end{table}
 
-\begin{sidewaystable}
+\begin{table}
 \centering
 \caption{My caption}
 \label{my-label}
@@ -37,11 +46,15 @@
 15      & MOSFET                 & 2        & BSS138LT1G            & BSS138LT1G            &                                                                                                                                                                                                              \\ \hline
 16 - 32 & Resistors              &          &                       &                       & Equivalent ones will be found at the component storage at SDU                                                                                                                                                \\ \hline
 33      & Converter              & 1        & LMR10510XMFE/NOPB     & LMR10510XMFE/NOPB     &                                                                                                                                                                                                              \\ \hline
-34      & Switch                 & 1        & 1101-M2-S3-C-Q-E-2    &                       & Found at component storage????                                                                                                                                                                               \\ \hline
+34      & Switch                 & 1        & 1101-M2-S3-C-Q-E-2    &  1101M2S3CQE2         &                                                                                                   \\ \hline
 35      & DNP                    &          &                       &                       &                                                                                                                                                                                                              \\ \hline
 36      & Comparator             & 1        & AP331AWG-7            & LMV331QDBVRQ1         & Original ships in packs of 50. New comparator is compatible, faster and ships in packs of 5.                                                                                                                 \\ \hline
 37      & Programmable reference & 1        & TL431AIDBZR           & TL431AIDBZR           &                                                                                                                                                                                                              \\ \hline
+x      & Capacitor for anti-aliasing filter  & 4        & NA           & 08055C102KAT2A           &  Similar to the one used in the MicroZed I/O carrier card and with the 0805 footprint                                                                                                                                                                                                      \\ \hline
+x      & Resistors for anti-aliasing fitler  & 8        & NA           &            &  SDUs storage                                                                                                                                                                                                     \\ \hline
+
+
 \end{tabular}
 
 	
-\end{sidewaystable}
+\end{table}
