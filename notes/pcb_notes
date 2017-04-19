@@ -1,0 +1,18 @@
+Anti-aliasing filter skal vendes om.
+gule mærkater på alt ADC
+
+
+
+
+To do:
+Tjek op på alle JX1 og JX2 connections sammen med con5 go con6
+Tjek op på motorconnector
+Tjek op på mikrofonconnector - CHECK!
+
+
+Hvordan kan vi teste?
+- header med alle spændinger / power busses	
+
+
+Dokumentér:
+3.3V supply til microphon. Se datasheet.
