@@ -2,13 +2,52 @@
 \subsection{Carrier Card Design}
 \label{sub:carrier_design}
 
+\subsubsection*{Power Requirements}
+\label{sub:power_req}
+A carrier card  needs to provide the following voltages for the MicroZed:
+\begin{itemize}
+	\item $V_{in} = 5V$
+	\item $V_{ccio,13}$ (Voltage logic level for I/O bank 13)
+	\item $V_{ccio,34}$ (Voltage logic level for I/O bank 34)
+	\item $V_{ccio,35}$ (Voltage logic level for I/O bank 35)
+\end{itemize}
+The different I/0 banks can be operated at different voltage levels.
+According to \cite{zynq_dc}, the possibly logic levels for I/O banks are 1.2V, 1.5V, 1.8V, 2.5V, and 3.3V 
 
-\textit{This is very badly written. Only meant as notes.}\\
-To maintain proper power off sequencing \cite{design_carrier} VCCIO\_EN needs to be turned pulled low before PWR\_EN goes low.
-This it done with a small RC circuit that needs to be charged before PWR\_EN goes low. 
-The inhibit signal of the swarmbots DC/DC converter needs to be pulled low after the two other signals. Therefore a slower charging RC circuit is in front of the MOSFET that pulls it low.
+It was chosen to supply all I/O banks with a voltage level of 3.3V as there were no need for multiple different levels and 3.3V is widely used.
 
+$$ V_{ccio} =  V_{ccio,13} = V_{ccio,34} = V_{ccio,35} = 3.3V$$
 
+\subsubsection*{Power Up Sequencing}
+On power up the first that needs to happen is to pull the MicroZeds PWR\_EN high on the carrier card.
+This is done with a pull-up resistor as shown in figure \ref{fig:pwr_en_circuit}.
+
+\begin{figure}
+	\centering
+	\includegraphics[width=.4\linewidth]{graphics/power_en_sch.pdf}
+	\caption{Circuit for proper power sequencing on MicroZeds PWR\_EN.}
+	\label{fig:pwr_en_circuit}
+\end{figure}
+
+When the MicroZed has powered up its internal DC/DC converters and is ready to receive voltage on its I/O banks the VCCIO\_EN will go high.
+VCCIO\_EN has a logic level of 1.8V and the signal is therefore fed to a comparator that outputs a 5V signal to a DC/DC converter when VCCIO\_EN is high.
+The DC/DC converter is configured to produce a voltage level of 3.3V that is connected to $V_{ccio}$
+This circuitry can be seen in figure \ref{fig:pwr_io_circuit}.
+
+\begin{figure}
+	\centering
+	\includegraphics[width=1\linewidth]{graphics/vccio_power_up.pdf}
+	\caption{Circuit for proper power sequencing on I/O banks.}
+	\label{fig:pwr_io_circuit}
+\end{figure}
+
+\subsubsection*{Power Down Sequencing}
+On power down VCCIO\_EN, DCDC\_EN and PWR\_EN should be pulled down. 
+VCCIO\_EN needs to be pulled down first, hereafter PWR\_EN and lastly DCDC\_EN .
+The signals are pulled down by MOSFETS controlled by the V\_OFF signal.
+When the power switch on the carrier card is flicked, the battery voltage is connected to the V\_OFF rail thereby turning the MOSFETS on and pulling the signals down. 
+The correct sequence is maintained by charging capacitors on the gate side of the MOSFETS thereby creating a delay.
+Such a MOSFET circuit is shown in figure \ref{fig:pwr_en_circuit}.
 
 
 \begin{table}
