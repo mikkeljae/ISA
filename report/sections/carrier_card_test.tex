@@ -1,0 +1,89 @@
+%!TEX root = ../main.tex
+\section{Verification}
+Verification of the correct voltage-rails, desired powerup and powerdown sequences is needed in order to avoid damaging the MicroZed when connected.
+The carriercard is designed to allow for measurement of the voltage-rails on the powerheader, P1, without connecting the MicroZed.
+Specifically the J1 jumper should be present to simulate the VCCIO\_EN signal from the MicroZed.
+
+\subsection{Carrier Card Debugging}
+After soldering of all the components it was found by measuring that the board was not functioning correctly.
+The debugging of the board will be described in this section.
+
+All voltages on the powerheader were measured by an oscilloscope whilst toggling the power switch.
+The VCC rail should switch between 0 [V] and 5 [V], which it was not, leading to the conclusion that circuitry handling the enable signal, DCDC\_EN ,to the REG1 DC/DC converter could be faulty.
+By inspection, it was found that the footprint of the mosfets Q1,Q2 and Q3 were wrong.
+Rotating the components fixed the problem and the power switch now toggled both the VCC rail and the 2.5 [V] rail on and off.
+
+The measurements of VCCIO during powerup showed that it immediately went to the approximately 3.3 [V], but then discharging slowly towards zero voltage.
+The enable signal, VADJ\_EN, was low even tough the input voltages were measured to be as expected.
+This lead to a thorough examination of the component and the schematic and it was found that the input signals should be switches.
+The input signals were switched, which fixed the issue and made the VCCIO voltage follow the position of the powerswitch.
+
+Measuring the voltage level of VCCIO showed it to be 3.4 [V] rather than the expected 3.3 [V].
+This was due to placing a 47k 47k [$\Omega$]resistor as R4 instead of a 45.3k [$\Omega$] as specified in the schematics.
+The 47k [$\Omega$] resistor was paralleled with a 1.5M [$\Omega$] resistor to yield a resistance of xx and a voltage of 3.33 V.
+
+%\mikkel{Skal vi snakke om prel her eller senere}
+
+Due to mechanical bouncing in the power switch, the power off sequence is messy. (see the data)
+This could possibly be solved using a low-pass filter and maybe a schmitt-trigger circuit.
+
+
+\subsection{Carrier Card Power Sequencing}
+As described in section \ref{sub:carrier_design} the carrier card is designed to provide the needed power sequencing on startup and shutdown.
+
+\subsubsection*{Startup}
+To verify the proper startup power sequence of the Swarm carrier the signals \texttt{VCC}, \texttt{2V5REF}, \texttt{VCCIO\_EN} and \texttt{VCCIO} were measured and plotted in figure \ref{fig:startup_swarm}.
+\cite{design_carrier} dictates that POWER\_EN signal must be pulled high on powerup, which was measured to be true.
+\texttt{VCCIO\_EN} is produced by the MicroZed and is plotted in figure \ref{fig:startup_swarm}. 
+It can be seen that \texttt{VCCIO\_EN} rises to its logical level, 1.8 [V], then goes low for a while and hereafter going high, which is not the expected behavior,
+To determine if this behavior was caused by an issue on the Swarm carrier the value of AVNET carrier  was measured at startup when connecting the MicroZed to the AVNET carrier card.
+The two measurements of \texttt{VCCIO\_EN} at startup is plotted in figure \ref{fig:startup_vccioen}.
+It is seen that the two datasets are nearly identical concluding that the Swarm and AVNET carrier card yields the same behavior.
+As \texttt{VCCIO\_EN} has the same behavior when connecting the MicroZed to the AVNET carrier it is believed to be non problematic.
+
+The converter providing \texttt{VCCIO} should be enabled by \texttt{VCCIO\_EN}.
+By inspecting figure \ref{fig:startup_swarm} it is verified that when \texttt{VCCIO\_EN} is high the converter providing \texttt{VCCIO} is enabled and  \texttt{VCCIO} rises towards its final level of 3.3 [V].
+It is also verified that \texttt{2V5REF} reaches its expected voltage level of 2.5 [V].
+
+\begin{figure}
+\centering
+\begin{subfigure}[t]{.45\textwidth}
+  \centering
+    \input{graphics/startup_graph.tex}
+  \caption{Signals on the Swarm carrier card at startup.}
+  \label{fig:startup_swarm}
+\end{subfigure}%
+\hfill
+\begin{subfigure}[t]{.45\textwidth}
+  \centering
+  \input{graphics/startup_graph_vccioen.tex}
+  \caption{\texttt{VCCIO\_EN} at startup on Swarm and AVNET carrier card. Data is shifted in time for clarity.}
+  \label{fig:startup_vccioen}
+\end{subfigure}
+\caption{Measured signals at startup.}
+\label{fig:startup_plot}
+\end{figure}
+
+\subsubsection*{Shutdown}
+To verify the proper shutdown power sequence of the Swarm carrier the signals \texttt{POWER\_EN}, \texttt{DCDC\_EN}, \texttt{VCCIO\_EN} and \texttt{V\_OFF} were measured and plotted in figure \ref{fig:shutdown}.
+\texttt{V\_OFF} switches from 0 [V] to the battery voltage, when setting the power switch in off mode.
+Then the signals \texttt{VCCIO\_EN}, \texttt{POWER\_EN} and \texttt{DCDC\_EN} should be pulled low in that order.
+Figure \ref{fig:shutdown} shows that to be true.
+
+\begin{figure}
+	\centering
+    \input{graphics/shutdown_graph.tex}
+	\caption{Measured signals on the Swarm carrier card at shutdown.}
+	\label{fig:shutdown}
+\end{figure}
+
+
+\begin{figure}
+	\centering
+    \input{graphics/shutdown_w_noise_graph.tex}
+	\caption{Measured signals on the Swarm carrier card at shutdown.}
+	\label{fig:shutdown}
+\end{figure}
+
+
+%\mikkel{Alle signaler i texttt}
