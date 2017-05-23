@@ -6,5 +6,4 @@ more names on silk-screen
 100  0402 resistor
 
 On/Off on silk-screen
-Orientate BSS138LTIG footprint correctly
-reverse +/- on U1 - comparator
+Resize pin holes for dc-dc converter
