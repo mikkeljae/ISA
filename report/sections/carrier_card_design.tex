@@ -1,6 +1,9 @@
 %!TEX root = ../main.tex
-\subsection{Carrier Card Design}
-\label{sub:carrier_design}
+\section{Design}
+\subsection{MicroZed Carrier Card}
+\label{sub:microzed_carrier_card}
+Avnet supplies a MicroZed breakout carrier card as a reference design for designing carrier cards.
+All of the schematics and layout documents are made publicly available and will, in conjunction with the carrier card design guide \cite{design_carrier} form the basis for the design of the swarmbot carrier card.
 
 \subsubsection*{Power Requirements}
 \label{sub:power_req}
@@ -12,11 +15,62 @@ A carrier card  needs to provide the following voltages for the MicroZed:
 	\item $V_{ccio,35}$ (Voltage logic level for I/O bank 35)
 \end{itemize}
 The different I/0 banks can be operated at different voltage levels.
-According to \cite{zynq_dc}, the possibly logic levels for I/O banks are 1.2V, 1.5V, 1.8V, 2.5V, and 3.3V 
+According to \cite{zynq_dc}, the possibly logic levels are 1.2V, 1.5V, 1.8V, 2.5V, and 3.3V.
 
-It was chosen to supply all I/O banks with a voltage level of 3.3V as there were no need for multiple different levels and 3.3V is widely used.
+It was chosen to supply all I/O banks with a voltage level of 3.3V as the vast majority of hardware used at the hardware is available at this voltage.
+Additionally, it simplifies both the circuitry, as well as the use of the board.
 
 $$ V_{ccio} =  V_{ccio,13} = V_{ccio,34} = V_{ccio,35} = 3.3V$$
+
+The generation of the 3.3V rail is defined in \cite{carrier_schematic} and will be discussed in more detail in section \ref{sec:33v}.
+Since the swarmbot is designed to be powered from a 7.4V LiPo battery, the 5V rail has to be generated from this rail.
+As the voltage of a battery is not static, the converter will have to be able to supply the required voltage throughout the entire discharge cycle.
+\thomas{Is the battery mentioned?}
+\thomas{Add figure on discharge curve.}
+As can be seen on figure \ref{fig:discharge}, the maximum voltage once fully charged is 8.4V while the minimum voltage when discharged is 6.3V.
+\thomas{Check min and max voltages fit discharge curve.}
+\begin{figure}
+	\centering
+	\input{graphics/discharge.tex}
+	\caption{Discharge curve of the Ansmann 18650 2S1P Li-Ion battery used to power the swarmbot.}
+	\label{fig:discharge}
+\end{figure}
+According to \cite{microzed_hardware_guide} the estimated maximum power draw of the MicroZed is 1.7A at 5V.
+This is assuming 85\% utilisation of PL and a conservative 80\% efficiency of the converters.
+The estimate made by Avnet is made with the Zynq-7010 in the Xilinx Power Estimator (XPE) \cite{xpe}.
+The MicroZed used for the swarmbot project, however, is equipped with the Zynq-7020, a slightly larger chip.
+Running the same scenario, 85\% utilisation, in XPE reveals that the 7020 draws 2.3W, just 0.1W more than the 7010, a marginal difference in the total power budget.
+In addition to the MicroZed, also the debug LEDs and the microphone board are powered from this rail, adding an estimated $\approx$150mA extra current draw.
+In summary, these are the requirements for the DC/DC converter used for generating the 5V rail:
+
+\begin{itemize}
+	\item Must function across the entire voltage range of the battery, 6.5V to 8.4V.
+	\item Should be able to supply at least 1.85A at 5V.
+\end{itemize}
+
+Below is a discussion of the various choices made in the design of the circuitry of the 5V supply.
+
+\paragraph{Designing the 5V Rail}
+The PTH08080WAH \cite{pth08080} meets these requirements at a maximum power delivery of 2A/10W/5V.
+The device is designed to have a wide input range, accepting \texttt{Vin}=\texttt{Vo}+1.1V to 18V.
+At the required 5V this translates to an input range of 6.1V to 18V.
+\texttt{Vo} is determined via an external resistor \texttt{Rset}.
+A formulae is provided to calculate the exact \texttt{Rset} needed for a given voltage, however a large table of common values is already calculated.
+According to this table, \texttt{Rset}=353$\omega$ results in 5V.
+353$\omega$ is not a standard value, choosing 348$\omega$ instead yields 5.01V, which is fine for this application.
+\\~\\
+The circuit appertaining to this component can be seen in figure \ref{fig:dcdccomponent}.
+This is the standard application circuit as shown in the datasheet (figure 10 \cite{pth08080}).
+According to the datasheet, the minimum recommended input capacitance is 100$\mu$F. 
+Of the capacitors on the list of recommended capacitors, also given in the datasheet, the 20SVP150M was chosen.
+It is rated for 20V, sufficient for this application, and has a capacitance of 150$\mu$F. 
+
+\begin{figure}
+	\centering
+	\includegraphics[width=\linewidth]{graphics/5v}
+	\caption{Circuit for generating \texttt{VCC}, the 5V rail.}
+	\label{fig:pth08080}
+\end{figure}
 
 \subsubsection*{Power Up Sequencing}
 On power up the first that needs to happen is to pull the MicroZeds PWR\_EN high on the carrier card.

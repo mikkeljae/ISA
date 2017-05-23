@@ -37,18 +37,31 @@ Mainly because it is within the confines of the robot platform, gives access to 
 
 \subsubsection*{MicroZed Carrier Card}
 This section will define the requirements for a MicroZed carrier card.
-MicroZed provides a carrier card design guide~\cite{design_carrier} that describes the requirements.
+Avnet provides a carrier card design guide~\cite{design_carrier} that describes the requirements.
 It describes how to utilize the Zynq chip on the MicroZed board.
-In this project only a number of general I/Os and the two ADCs are needed.
-
-\mikkel{Write that it makes sense to develop a carrier card as it will be used elsewhere at the university as well.}
+In this project, only a number of general I/Os and the two ADCs are needed.
+This carrier card however, is expected to be used across a number of other, yet undefined projects.
+For this reason the card is designed in a more general fashion, rather than specifically for the swarmbot.
+Below is a list of the features the carrier card is designed to support.
 
 \begin{itemize}
-	\item Anti-aliasing filters for ADC inputs
-	\item Power for MicroZed board and Zynq I/O banks 34 and 35.
-	\item Correct power sequencing on boot
-	\item Passthrough of Zynq bank I/Os
-	\item Microheader connection to MicroZed
+	\item ADC, not used on the swarmbot.
+	\item Motor Drivers capable of driving the swarmbot.
+	\item Support for the digital microphone board, developed at SDU.
+	\item Support for click generator.
+	\item Passthrough of MicroZed GPIO.
+	\item Debug LEDs.
 \end{itemize}
 
+These points are the features that the user will be presented with when using the board.
+In addition to these, a number of requirements are set in the afforementioned design guide:
+
+\begin{itemize}
+	\item Anti-aliasing filters for ADC inputs.
+	\item Power for MicroZed board and Zynq I/O banks 34 and 35.
+	\item Correct power sequencing on boot/shutdown.
+	\item Microheader connection to MicroZed.
+\end{itemize}
+
+The following sections will outline how each of these points are addressed in the design of the carrier card.
 % subsection embedded_platform (end)
