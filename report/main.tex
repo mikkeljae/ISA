@@ -1,3 +1,4 @@
+%!TEX program = lualatex
 \documentclass[11pt]{article}
 \usepackage[utf8]{inputenc}
 \usepackage{amsmath}
@@ -10,7 +11,16 @@
 \usepackage{dcolumn}
 \usepackage{rotating}			%Sidewaystable
 \usepackage{todonotes}
+\usepackage{subcaption}
+\usepackage{pgfplots}
+\usepackage{tikz}
+\usepackage{tikzscale}
 
+\pgfplotsset{compat=newest}
+
+% Should force tikz to only run once on each included .tex file
+\usetikzlibrary{external} 
+\tikzexternalize
 
 \newcommand{\thomas}[1]{\todo[inline,color=black!30]{Thomas: #1}}
 \newcommand{\mikkel}[1]{\todo[inline,backgroundcolor=red!40]{Mikkel: #1}}
@@ -24,6 +34,8 @@
 \input{sections/analysis.tex}
 \input{sections/embedded_platform.tex}
 \input{sections/carrier_card_design.tex}
+\input{sections/carrier_card_test.tex}
+\clearpage
 \input{bib.tex}
 
 \end{document}

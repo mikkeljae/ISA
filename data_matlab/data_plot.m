@@ -1,6 +1,9 @@
 clear all; close all; clc;
 
-%% PLOT STARTUP 
+%% To TikZ?
+to_tikz = 1;
+
+%% PLOT STARTUP
 
 data = importdata('startup/C1startup-our-carrier00000.dat');
 time = data(:,1);
@@ -27,11 +30,36 @@ title('Startup sequence')
 xlabel('Time [S]')
 ylabel('Voltage [V]')
 
-legend('VCC','2V5REF','VCCIO','VCCIO\_EN')
+legend('VCC','2V5REF','VCCIO\_EN','VCCIO')
 xlim([0*10^(-3) 9.4*10^(-3)])
-matlab2tikz('startup_graph.tex');
+ylim([0 6])
+if to_tikz == 1
+    cleanfigure()
+    matlab2tikz('startup_graph.tex');
+    matlab2tikz( 'test.tikz', 'height', '\fheight', 'width', '\fwidth' )
 
-%% PLOT SHUTDOWN 
+end
+
+%Plot AVNET carrier card VCCIO_EN
+data = importdata('startup/C3startup-zedcarrier00000.dat');
+C4_data_AVNET = data(:,2);
+
+time_AVNET = data(:,1)+6.6*10^(-3); % offset data to make it look nice
+
+figure
+plot (time,C3_data,time_AVNET,C4_data_AVNET)
+title('Startup sequence, VCCIO\_EN')
+xlabel('Time [S]')
+ylabel('Voltage [V]')
+legend('VCCIO\_EN, SWARM','VCCIO\_EN, AVNET')
+ylim([0 6])
+xlim([0*10^(-3) 9*10^(-3)])
+if to_tikz == 1
+    cleanfigure()
+    matlab2tikz('startup_graph_vccioen.tex');
+end
+
+%% PLOT SHUTDOWN
 
 data = importdata('shutdown/C1prel00000.dat');
 time_sh = data(:,1);
@@ -59,7 +87,10 @@ xlabel('Time [S]')
 ylabel('Voltage [V]')
 legend('POWER\_EN','DCDC\_EN','VCCIO\_EN','V\_OFF')
 xlim([0 2.14*10^(-5)])
-matlab2tikz('shutdown_graph.tex');      
+if to_tikz == 1
+    cleanfigure()
+    matlab2tikz('shutdown_graph.tex');
+end
 
 %Plot showing the bouncing of V_OFF
 figure
@@ -69,4 +100,7 @@ xlabel('Time [S]')
 ylabel('Voltage [V]')
 legend('POWER\_EN','DCDC\_EN','VCCIO\_EN','V\_OFF')
 xlim([0*10^(-4) 10*10^(-4)])
-matlab2tikz('shutdown_w_noise_graph.tex');
+if to_tikz == 1
+    cleanfigure()
+    matlab2tikz('shutdown_w_noise_graph.tex');
+end
