@@ -14,7 +14,11 @@
 \usepackage{subcaption}
 \usepackage{pgfplots}
 \usepackage{tikz}
-\usepackage{tikzscale}
+
+\usepackage{chngcntr}			%Make figure numbering reset on new section
+\counterwithin{figure}{section}
+\counterwithin{table}{section}
+\counterwithin{equation}{section}
 
 \pgfplotsset{compat=newest}
 

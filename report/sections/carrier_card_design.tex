@@ -110,8 +110,28 @@ The correct sequence is maintained by charging capacitors on the gate side of th
 Such a MOSFET circuit is shown in figure \ref{fig:pwr_en_circuit}.
 
 \subsection{Analog to Digital Converter}
--XADC, Numerous pins can be rerouted to the adc's on bank 0, see UG480, chap. 1.
-\cite{adc}
+The Zynq 7-series FPGA's are equipped with a dual, 12 bit ADC, yet has only one dedicated analog differential pair, \texttt{VP\_0} and \texttt{VN\_0}.
+See figure \ref{fig:adc} for an overview of the XADC architechture
+If more ADC channels are needed, any of the 16 auxiliary analog inputs (AAI) can be used.
+These are placed on I/O bank 35 which, as the rest of the I/O on the swarmbot carrier card, is supplied with \texttt{VCCIO}=3.3V.
+Once selected, a multiplexer applies each signal to the ADC's in turn.
+For this reason any signal on the AAI can never go above \texttt{VCCIO} to avoid damaging the inputs.
+On the swarmbot carrier card the dedicated analog pins, as well as three AAI pairs are routed to the ADC header (\texttt{CON4}).
+The signals \texttt{VAUX\_P0} and \texttt{VAUX\_N0} on \texttt{JX1} are the dedicated analog inputs and can be used on its own.
+The remaining three pairs are AAI and must be multiplexed if the user wishes to use them.
+It should be noted that due to the anti-aliasing filters, these pairs cannot be used as digital I/O on the swarmbot carrier card.
+These anti-aliasing filters are required in order to filter out high frequency noise in the differential pairs and should be placed as closely to the Zynq as possible, in this case, that is next to the connectors \texttt{JX1} and \texttt{JX2}, the main connectors to the MicroZed.
+Figure \ref{fig:anti_a} from \cite{adch} illustrates a simple measurement setup and the anti-aliasing filter.
+\texttt{R1} and \texttt{R2} form a voltage divider, creating a 1V signal.
+\texttt{R5} is matched to the parallel impedance of \texttt{R1||R2}.
+Resistors \texttt{R3}, \texttt{R4} and the capacitor \texttt{C1} can be adjusted to change the settling time of the circuit.
+\cite{adc} gives equation \ref{eq:aliasing} which can be used to calculate the settling time and by that determine the maximum sampling frequency.
+
+\begin{equation}
+	\label{eq:aliasing}
+	T_{settle}=\log{2^{resolution+1}}\cdot \left(\frac{R1\cdot R2}{R1 + R2}+R3+R4+R5\right)\cdot C_1 = 4.9\cdot 10^{-6}
+\end{equation}
+
 \begin{figure}
 	\centering
 	\includegraphics[width=1\linewidth]{graphics/adc.pdf}
@@ -122,14 +142,18 @@ Such a MOSFET circuit is shown in figure \ref{fig:pwr_en_circuit}.
 \begin{figure}
 	\centering
 	\includegraphics[width=0.6\linewidth]{graphics/anti_aliasing.pdf}
-	\caption{Anti Aliasing digram from Xilinx ADC userguide \cite{adc}.}
+	\caption{Anti-Aliasing diagram from Xilinx ADC userguide \cite{adc}.}
 	\label{fig:anti_a}
 \end{figure}
 
+<<<<<<< HEAD
 \subsection{Anti Aliasing Filters}
 -Anti-Aliasing filter, place close to BERGSTAK header, UG480 p. 80, add note on sampling frequency equation.
 
 \subsection{Buzzer Solution}
+=======
+\subsection{Buzzer Solution...}
+>>>>>>> 49440ede043950bc1ffc178efe410e3ff53d58b3
 As described in section \ref{sub:click_generator} it was found that the best solution for creating a click noise on the platform was to use a piezo speaker with a drive circuit and a \texttt{PWM} signal.
 But because there has been made no further investigation into what sound level is needed and what the frequency spectrum of the generated click is, it was decided to leave the circuitry out of the carrier card.
 Furthermore the sound source should be placed in the center of the robot to ease localization of the robot, but the design of the carrier card did not allow this.
@@ -147,11 +171,13 @@ Two holes were added to the carrier card to allow for fixture of the external pi
 
 
 
-\subsection{Choice of components for the dc/dc converter}
-
 \subsection{Pinout}
 
 \subsection{Choice of Components}
+<<<<<<< HEAD
 As mentioned, the choice of components is largely based upon the Avnet carrier card.
 Generally the same components were chosen, but because of pricing, availability or ordering batch size similar components were chosen instead.
 Table \ref{tab:components1} and \ref{tab:components2} in appendix \ref{app:components} explains what components were chosen and why.
+=======
+As mentioned the choice of components is largely based upon the Avnet carrier card.
+>>>>>>> 49440ede043950bc1ffc178efe410e3ff53d58b3
