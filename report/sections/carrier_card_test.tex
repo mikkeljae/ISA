@@ -42,7 +42,7 @@ The converter providing \texttt{VCCIO} should be enabled by \texttt{VCCIO\_EN}.
 By inspecting figure \ref{fig:startup_swarm} it is verified that when \texttt{VCCIO\_EN} is high the converter providing \texttt{VCCIO} is enabled and  \texttt{VCCIO} rises towards its final level of 3.3 [V].
 It is also verified that \texttt{2V5REF} reaches its expected voltage level of 2.5 [V].
 
-\begin{figure}
+\begin{figure}[h]
 \centering
 \begin{subfigure}[t]{.45\textwidth}
   \centering
@@ -67,7 +67,7 @@ To verify the proper shutdown power sequence of the Swarm carrier the signals \t
 Then the signals \texttt{VCCIO\_EN}, \texttt{POWER\_EN} and \texttt{DCDC\_EN} should be pulled low in that order.
 Figure \ref{fig:shutdown} shows that to be true.
 
-\begin{figure}
+\begin{figure}[h]
 	\centering
     \input{graphics/shutdown_graph.tex}
 	\caption{Measured signals on the Swarm carrier card at shutdown.}
@@ -77,7 +77,7 @@ It should be noted that figure \ref{fig:shutdown} only shows the first few micro
 In figure \ref{fig:shutdown_bounce} the first millisecond is shown and it can be seen that the switch creates quite a lot of bouncing on \texttt{V\_OFF}.
 The bouncing could be removed by designing and inferring a low pass filter to the circuit, possibly with a Schmitt trigger circuit to generate a clean edge.
 
-\begin{figure}
+\begin{figure}[h]
 	\centering
     \input{graphics/shutdown_w_noise_graph.tex}
 	\caption{Measured signals on the Swarm carrier card at shutdown. Full sequence is shown.}
@@ -105,7 +105,7 @@ From table \ref{tab:discharge} it can be seen that discharging at 2A will give 4
 Note that the graphs were acquired using two batteries in order to shorten the time required to finish the test.
 This may have a marginal impact on the results, but is assumed to be irrelevant.
 
-\begin{table}
+\begin{table}[h]
   \centering
   \begin{tabular}{|r|c|c|c|c|}
     \hline
@@ -120,7 +120,7 @@ This may have a marginal impact on the results, but is assumed to be irrelevant.
   \label{tab:discharge}
 \end{table}h
 
-\begin{figure}
+\begin{figure}[h]
   \centering
   \input{graphics/discharge.tex}
   \caption{Discharge curve of the Ansmann 18650 2S1P Li-Ion battery used to power the swarmbot.}
