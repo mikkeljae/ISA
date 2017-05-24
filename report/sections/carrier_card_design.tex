@@ -130,7 +130,22 @@ Such a MOSFET circuit is shown in figure \ref{fig:pwr_en_circuit}.
 -Anti-Aliasing filter, place close to BERGSTAK header, UG480 p. 80, add note on sampling frequency equation.
 
 \subsection{Buzzer Solution...}
--The calculation of the resistor size for leds and buzzer taking into account the choice of mosfet (on region characteristics)
+As described in section \ref{sub:click_generator} it was found that the best solution for creating a click noise on the platform was to use a piezo speaker with a drive circuit and a \texttt{PWM} signal.
+But because there has been made no further investigation into what sound level is needed and what the frequency spectrum of the generated click is, it was decided to leave the circuitry out of the carrier card.
+Furthermore the sound source should be placed in the center of the robot to ease localization of the robot, but the design of the carrier card did not allow this.
+Therefore it was decided to include a header providing access to two IO ports, ground and \texttt{VBATT}.
+The header is shown in figure \ref{fig:audio_header}.
+Two IO ports are needed if differential drive of the piezo is wanted.
+Two holes were added to the carrier card to allow for fixture of the external piezo and drive circuit.
+
+\begin{figure}
+	\centering
+	\includegraphics[width=0.4\linewidth]{graphics/audio_header.pdf}
+	\caption{Audio header on the carrier card.}
+	\label{fig:audio_header}
+\end{figure}
+
+
 
 \subsection{Choice of components for the dc/dc converter}
 
