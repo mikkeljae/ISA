@@ -27,7 +27,12 @@ Since the swarmbot is designed to be powered from a 7.4V LiPo battery, the 5V ra
 As the voltage of a battery is not static, the converter will have to be able to supply the required voltage throughout the entire discharge cycle.
 \thomas{Is the battery mentioned?}
 \thomas{Add figure on discharge curve.}
-As can be seen on figure \ref{fig:discharge}, the maximum voltage once fully charged is 8.4V while the minimum voltage when discharged is 6.3V.
+In order to determine the maximum and minimum voltages of the battery, a discharge curve was created.
+More detail on the test done to create the curve can be found in section \ref{sec:discharge_curve}, but the result is repeated in figure \ref{fig:discharge} for convenience.
+Here it can be seen that the maximum voltage once fully charged is 8.4V while the minimum voltage when discharged fully is 5.5V.
+Attempting to procure a DC/DC converter capable of maintaining a stable 5V output with an input voltage of just 0.5V higher may prove to be an expensive endevour.
+The curve reveals that the voltage remains above 6V for $\approx$85\% of the discharge cycle. 
+
 \thomas{Check min and max voltages fit discharge curve.}
 \begin{figure}
 	\centering

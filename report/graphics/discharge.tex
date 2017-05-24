@@ -1,0 +1,70 @@
+% This file was created by matlab2tikz.
+%
+\definecolor{mycolor1}{rgb}{0.00000,0.44700,0.74100}%
+%
+\begin{tikzpicture}
+
+\begin{axis}[%
+width=4.521in,
+height=3.566in,
+at={(0.758in,0.481in)},
+scale only axis,
+xmin=0,
+xmax=2500,
+xlabel style={font=\color{white!15!black}},
+xlabel={Time [S]},
+ymin=5,
+ymax=7.5,
+ylabel style={font=\color{white!15!black}},
+ylabel={Voltage [V]},
+axis background/.style={fill=white},
+title style={font=\bfseries},
+title={Discharge Characteristics},
+legend style={legend cell align=left, align=left, draw=white!15!black}
+]
+\addplot [color=mycolor1]
+  table[row sep=crcr]{%
+60	7.456\\
+120	7.26\\
+180	7.174\\
+240	7.108\\
+300	7.047\\
+360	6.99\\
+420	6.933\\
+480	6.877\\
+540	6.823\\
+600	6.763\\
+660	6.717\\
+720	6.664\\
+780	6.613\\
+840	6.564\\
+900	6.518\\
+960	6.476\\
+1020	6.436\\
+1080	6.401\\
+1140	6.368\\
+1200	6.338\\
+1260	6.31\\
+1320	6.283\\
+1380	6.257\\
+1440	6.233\\
+1500	6.208\\
+1560	6.183\\
+1620	6.16\\
+1680	6.136\\
+1740	6.111\\
+1800	6.086\\
+1860	6.06\\
+1920	6.033\\
+1980	6.003\\
+2040	5.969\\
+2100	5.928\\
+2160	5.874\\
+2220	5.801\\
+2280	5.687\\
+2340	5.326\\
+};
+\addlegendentry{Discharge Current - 4A}
+
+\end{axis}
+\end{tikzpicture}%
