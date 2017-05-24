@@ -28,17 +28,18 @@ As the voltage of a battery is not static, the converter will have to be able to
 \thomas{Is the battery mentioned?}
 \thomas{Add figure on discharge curve.}
 In order to determine the maximum and minimum voltages of the battery, a discharge curve was created.
-More detail on the test done to create the curve can be found in section \ref{sec:discharge_curve}, but the result is repeated in figure \ref{fig:discharge} for convenience.
+More detail on the test done to create the curve can be found in section \ref{sec:discharge_curve}, but the result is repeated in figure \ref{fig:discharge_repeat} for convenience.
 Here it can be seen that the maximum voltage once fully charged is 8.4V while the minimum voltage when discharged fully is 5.5V.
 Attempting to procure a DC/DC converter capable of maintaining a stable 5V output with an input voltage of just 0.5V higher may prove to be an expensive endevour.
-The curve reveals that the voltage remains above 6V for $\approx$85\% of the discharge cycle. 
+The curve reveals that the voltage remains above 6V for $\approx$85\% of the discharge cycle, even when discharging at 4A, far above what the carrier card will be capable of handling.
+For this reason, this will be the target minimum input voltage of the DC/DC converter.
 
 \thomas{Check min and max voltages fit discharge curve.}
 \begin{figure}
 	\centering
 	\input{graphics/discharge.tex}
 	\caption{Discharge curve of the Ansmann 18650 2S1P Li-Ion battery used to power the swarmbot.}
-	\label{fig:discharge}
+	\label{fig:discharge_repeat}
 \end{figure}
 According to \cite{microzed_hardware_guide} the estimated maximum power draw of the MicroZed is 1.7A at 5V.
 This is assuming 85\% utilisation of PL and a conservative 80\% efficiency of the converters.
@@ -49,16 +50,17 @@ In addition to the MicroZed, also the debug LEDs and the microphone board are po
 In summary, these are the requirements for the DC/DC converter used for generating the 5V rail:
 
 \begin{itemize}
-	\item Must function across the entire voltage range of the battery, 6.5V to 8.4V.
+	\item Must function across the entire voltage range of the battery, 6V to 8.4V.
 	\item Should be able to supply at least 1.85A at 5V.
 \end{itemize}
 
 Below is a discussion of the various choices made in the design of the circuitry of the 5V supply.
 
 \paragraph{Designing the 5V Rail}
-The PTH08080WAH \cite{pth08080} meets these requirements at a maximum power delivery of 2A/10W/5V.
+The PTH08080WAH \cite{pth08080} closely meets these requirements at a maximum power delivery of 2A/10W/5V.
 The device is designed to have a wide input range, accepting \texttt{Vin}=\texttt{Vo}+1.1V to 18V.
 At the required 5V this translates to an input range of 6.1V to 18V.
+This is of course slightly higher than the desired 6V, but even at the maximum discharge rate, estimated at 2.2A-2.3A, with the MicroZed drawing its maximum current and the motors running at full speed, there would still be approximately \thomas{some amount of minutes/hours} minutes of operation per charge.
 \texttt{Vo} is determined via an external resistor \texttt{Rset}.
 A formulae is provided to calculate the exact \texttt{Rset} needed for a given voltage, however a large table of common values is already calculated.
 According to this table, \texttt{Rset}=353$\omega$ results in 5V.

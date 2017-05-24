@@ -85,5 +85,41 @@ Figure \ref{fig:shutdown} shows that to be true.
 	\label{fig:shutdown}
 \end{figure}
 
+\subsection{Discharge Curve of the Ansmann 2S1P} % (fold)
+\label{sub:discharge_curve_of_the_ansmann_2s1p}
+In an effort to quantify the possible runtime of the system, a discharge curve was made for the Ansmann 2S1P Li-Ion battery used in this project.
+Making the discharge curve was done by fully charging the battery using the Swallow AC/DC 2 charger.
+This charger is capable of charging a variety of batteries, following the specific charge curve for each technology.
+As is expected from a 2-cell Li-Ion battery, the no-load voltage once fully charged is $\approx$8.4V.
+After charging, the battery is connected using a DC Electronic Load (model number: EA-EL 3160-60).
+The load is set at constant current mode and the current set.
+The battery is equipped with undervoltage protection that turns off the output once the voltage dips below 5V, in spite of this, it was decided to calculate the theoretical duration and run the test for that amount of time.
+At 2600mAh it will take $2600\text{mAh}/4000\text{mA}=0.65h$ or, in human terms, 39 minutes, to discharge the battery.
+For the sake of completion, the trial is repeated for 4, 3, 2 and 1A.
+The result can be seen in figure \ref{fig:discharge}.
+As discussed in sections \ref{sec:power_dissipation} and \ref{sub:power_req}, the maximum current draw of the platform at the battery is approximately 2.2A.
+Although it should be noted that this is a theoretical maximum and that it is unlikely that this will actually be reached.
+As with any battery, due to the internal resistance of the battery the voltage seen at the terminals depends heavily on the current being drawn.
+The platform will remain functional so long as the voltage remains above 6.1V, the minimum voltage required to maintain \texttt{VCC}, the rail supplying the MicroZed.
+The speed of the motors will however decline as the battery discharges.
+Table 
 
+\begin{table}
+  \centering
+  \begin{tabular}{|r|c|c|c|c|}
+    \hline
+    Current [A] & 4 & 3 & 2 & 1 \\
+    \hline
+    Time [S] & 2340 & 3060 & &  \\
+    \hline
+  \end{tabular}
+\end{table}
+
+\begin{figure}
+  \centering
+  \input{graphics/discharge.tex}
+  \caption{Discharge curve of the Ansmann 18650 2S1P Li-Ion battery used to power the swarmbot.}
+  \label{fig:discharge}
+\end{figure}
+% subsection discharge_curve_of_the_ansmann_2s1p (end)
 %\mikkel{Alle signaler i texttt}
