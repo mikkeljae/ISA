@@ -25,6 +25,11 @@
 \newcommand{\thomas}[1]{\todo[inline,color=black!30]{Thomas: #1}}
 \newcommand{\mikkel}[1]{\todo[inline,backgroundcolor=red!40]{Mikkel: #1}}
 
+%Should disable running todo notes externally
+\makeatletter
+\renewcommand{\todo}[2][]{\tikzexternaldisable\@todo[#1]{#2}\tikzexternalenable}
+\makeatother
+
 %Information to be included in the title page:
 \title{Individual Study Activity}
 \author{Thomas S. Christensen, Mikkel Skaarup Jaedicke}
