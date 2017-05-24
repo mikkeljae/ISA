@@ -58,16 +58,16 @@ It was choosen to order three different kinds of sound generators to experiment 
           \url{http://dk.rs-online.com/web/p/miniature-hojttalere/7564595/}
 \end{itemize}
 % subsection click_generator (end)
-\subsubsection*{Piezo element with plastic housing and internal drive circuit}
+\subsubsection*{Piezo Element with Internal Drive Circuit}
 This element produces a sound with a constant frequency just by connecting it to a DC power supply. 
 This is very simply and allows for a minimal interface, but the internal drive circuit makes it impossible to produce a frequency sweep. 
 
-\subsubsection*{Piezo speaker in plastic housing without internal drive circuit}
+\subsubsection*{Piezo Speaker with Internal Drive Circuit}
 This Piezo speaker is designed to have a flat frequency response and is therefore suitable for producing a frequency sweep. 
 A external drive circuit needs to be developed as it has no internal drive circuit.
 The developed circuit can be seen in figure \ref{fig:buzzer_circuit}.
 
-\begin{figure}
+\begin{figure}[h]
 	\centering
 	\includegraphics[width=.6\linewidth]{graphics/buzzer_circuit.pdf}
 	\caption{Schematic of drive circuit for piezo speaker.}
@@ -161,7 +161,7 @@ To measure the current drawn by the motors a small test was conducted.
 Three different voltages were applied to the motors by a power supply. 
 The results are shown in table \ref{tab:motor_power}.
 
-\begin{table}[]
+\begin{table}[h]
 \centering
 \caption{My caption}
 \label{tab:motor_power}
@@ -193,7 +193,7 @@ $$P_{5V} = 0.636 [A] \cdot 5 [V] = 3.18 [W]$$
 
 The power dissipated in the motor and motor controller is as in table \ref{tab:power_motor}.
 
-\begin{table}[H]
+\begin{table}[h]
 \centering
 \caption{My caption}
 \label{tab:power_motor}
@@ -209,7 +209,7 @@ Fast driving         & 2.8 \\ \hline
 The batteries have a capacity of $2600$ [mAH], giving the following driving times.
 \counterwithin{figure}{section}
 
-\begin{table}[H]
+\begin{table}[h]
 \centering
 \caption{My caption}
 \label{my-label}

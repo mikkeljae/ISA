@@ -70,44 +70,44 @@ According to the datasheet, the minimum recommended input capacitance is 100$\mu
 Of the capacitors on the list of recommended capacitors, also given in the datasheet, the 20SVP150M was chosen.
 It is rated for 20V, sufficient for this application, and has a capacitance of 150$\mu$F. 
 
-\begin{figure}
+\begin{figure}[h]
 	\centering
-	\includegraphics[width=0.7\linewidth]{graphics/5v.pdf}
+	\includegraphics[width=0.6\linewidth]{graphics/5v.pdf}
 	\caption{Circuit for generating \texttt{VCC}, the 5V rail.}
 	\label{fig:pth08080}
 \end{figure}
 
-\subsection{Power Up Sequencing}
-On power up the first that needs to happen is to pull the MicroZeds PWR\_EN high on the carrier card.
+\subsection{Power Up Sequence}
+According the carrier card design guide, \cite{design_carrier}, a carrier card needs to adhere to a specific power up sequence in order for the MicroZed to turn on correctly.
+On power up MicroZeds \texttt{PWR\_EN} signals needs to be pulled high on the carrier card, to enable power to the MicroZed.
 This is done with a pull-up resistor as shown in figure \ref{fig:pwr_en_circuit}.
 
-\begin{figure}
+\begin{figure}[h]
 	\centering
-	\includegraphics[width=.4\linewidth]{graphics/power_en_sch.pdf}
+	\includegraphics[width=.3\linewidth]{graphics/power_en_sch.pdf}
 	\caption{Circuit for proper power sequencing on MicroZeds PWR\_EN.}
 	\label{fig:pwr_en_circuit}
 \end{figure}
 
-When the MicroZed has powered up its internal DC/DC converters and is ready to receive voltage on its I/O banks the VCCIO\_EN will go high.
-VCCIO\_EN has a logic level of 1.8V and the signal is therefore fed to a comparator that outputs a 5V signal to a DC/DC converter when VCCIO\_EN is high.
-The DC/DC converter is configured to produce a voltage level of 3.3V that is connected to $V_{ccio}$
+When the MicroZed has powered up its internal DC/DC converters and is ready to receive voltage on its I/O banks \texttt{VCCIO\_EN} will go high.
+\texttt{VCCIO\_EN} has a logic level of 1.8 [V] and the signal is therefore fed to a comparator that outputs a 5 [V] signal to a DC/DC converter when \texttt{VCCIO\_EN} is high.
+The DC/DC converter is configured to produce a voltage level of 3.3V that is connected to \texttt{VCCIO}.
 This circuitry can be seen in figure \ref{fig:pwr_io_circuit}.
 
-\begin{figure}
+\begin{figure}[h]
 	\centering
 	\includegraphics[width=1\linewidth]{graphics/vccio_power_up.pdf}
 	\caption{Circuit for proper power sequencing on I/O banks.}
 	\label{fig:pwr_io_circuit}
 \end{figure}
 
-\subsection{Power Down Sequencing}
-\mikkel{Tell why it is important = signal integrity}
-On power down VCCIO\_EN, DCDC\_EN and PWR\_EN should be pulled down. 
-VCCIO\_EN needs to be pulled down first, hereafter PWR\_EN and lastly DCDC\_EN .
-The signals are pulled down by MOSFETS controlled by the V\_OFF signal.
-When the power switch on the carrier card is flicked, the battery voltage is connected to the V\_OFF rail thereby turning the MOSFETS on and pulling the signals down. 
-The correct sequence is maintained by charging capacitors on the gate side of the MOSFETS thereby creating a delay.
-Such a MOSFET circuit is shown in figure \ref{fig:pwr_en_circuit}.
+\subsection{Power Down Sequence}
+A power down sequence is also described in \cite{design_carrier}, that needs to be followed to ensure signal integrity. 
+The signals \texttt{VCCIO\_EN}, \texttt{DCDC\_EN} and \texttt{PWR\_EN} should be pulled down in that order when powering off.
+The signals are pulled down by mosfets controlled by the \texttt{V\_OFF} signal.
+When the power switch on the carrier card is in off mode, the battery voltage is connected to the \texttt{V\_OFF} rail thereby turning the mosfets on and pulling the signals down. 
+The correct sequence is maintained by charging capacitors on the gate side of the mosfets thereby creating a delay.
+Such a mosfet circuit is shown in figure \ref{fig:pwr_en_circuit}.
 
 \subsection{Analog to Digital Converter}
 The Zynq 7-series FPGA's are equipped with a dual, 12 bit ADC, yet has only one dedicated analog differential pair, \texttt{VP\_0} and \texttt{VN\_0}.
@@ -132,15 +132,14 @@ Resistors \texttt{R3}, \texttt{R4} and the capacitor \texttt{C1} can be adjusted
 	T_{s}=\ln{2^{resolution+1}}\cdot \left(\frac{R1\cdot R2}{R1 + R2}+R3+R4+R5\right)\cdot C_1 = 4.9\cdot 10^{-6}[\text{S}]
 \end{equation}
 
-\begin{figure}
+\begin{figure}[h]
 	\centering
 	\includegraphics[width=1\linewidth]{graphics/adc.pdf}
 	\caption{XADC Block Diagram from Xilinx ADC userguide \cite{adc}.}
 	\label{fig:adc}
 \end{figure}
 
-
-\begin{figure}
+\begin{figure}[h]
 	\centering
 	\includegraphics[width=0.8\linewidth]{graphics/anti_aliasing.pdf}
 	\caption{Anti-Aliasing diagram from Xilinx ADC userguide \cite{adc}.}
@@ -157,7 +156,7 @@ The header is shown in figure \ref{fig:audio_header}.
 Two IO ports are needed if differential drive of the piezo is wanted.
 Two holes were added to the carrier card to allow for fixture of the external piezo and drive circuit.
 
-\begin{figure}
+\begin{figure}[h]
 	\centering
 	\includegraphics[width=0.4\linewidth]{graphics/audio_header.pdf}
 	\caption{Audio header on the carrier card.}
