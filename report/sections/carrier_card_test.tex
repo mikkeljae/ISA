@@ -1,42 +1,39 @@
 %!TEX root = ../main.tex
 \section{Verification}
-Verification of the correct voltage-rails, desired powerup and powerdown sequences is needed in order to avoid damaging the MicroZed when connected.
-The carriercard is designed to allow for measurement of the voltage-rails on the powerheader, P1, without connecting the MicroZed.
-Specifically the J1 jumper should be present to simulate the VCCIO\_EN signal from the MicroZed.
+Verification of the correct voltage-rails, desired powerup and powerdown sequences is needed in order to avoid damaging the MicroZed when connecting it.
+In addition the functionality of the different IO ports on the carrier should be verified to ensure that the carrier card works properly.
+It should also be verified that the MicroZed works correctly when connected to the carrier card.
+This section will describe the work done to debug and verify the functionality of the carrier card.
 
 \subsection{Carrier Card Debugging}
 After soldering of all the components it was found by measuring that the board was not functioning correctly.
 The debugging of the board will be described in this section.
 
+The carriercard is designed to allow for measurement of the voltage-rails on the powerheader, \texttt{P1}, without connecting the MicroZed.
+Specifically the J1 jumper should be present to simulate the \texttt{VCCIO\_EN} signal from the MicroZed.
 All voltages on the powerheader were measured by an oscilloscope whilst toggling the power switch.
-The VCC rail should switch between 0 [V] and 5 [V], which it was not, leading to the conclusion that circuitry handling the enable signal, DCDC\_EN ,to the REG1 DC/DC converter could be faulty.
-By inspection, it was found that the footprint of the mosfets Q1,Q2 and Q3 were wrong.
-Rotating the components fixed the problem and the power switch now toggled both the VCC rail and the 2.5 [V] rail on and off.
+\texttt{VCC} should switch between 0 [V] and 5 [V], which it was not, leading to the conclusion that the circuitry handling the enable signal, \texttt{DCDC\_EN}, to the \texttt{REG1} DC/DC converter could be faulty.
+By inspection, it was found that the footprint of the mosfets \texttt{Q1},\texttt{Q2} and \texttt{Q3} were wrong.
+Rotating the components fixed the problem and the power switch now toggled both the \texttt{VCC} rail and the 2.5 [V] rail on and off.
 
-The measurements of VCCIO during powerup showed that it immediately went to the approximately 3.3 [V], but then discharging slowly towards zero voltage.
-The enable signal, VADJ\_EN, was low even tough the input voltages were measured to be as expected.
+Measurements of \texttt{VCCIO} during powerup showed that it immediately went to approximately 3.3 [V], but then discharged slowly towards zero voltage.
+The enable signal, \texttt{VADJ\_EN}, was low even though the input voltages were measured to be as expected.
 This lead to a thorough examination of the component and the schematic and it was found that the input signals should be switches.
-The input signals were switched, which fixed the issue and made the VCCIO voltage follow the position of the powerswitch.
+The input signals were switched, which fixed the issue and made the \texttt{VCCIO} voltage follow the position of the powerswitch.
 
-Measuring the voltage level of VCCIO showed it to be 3.4 [V] rather than the expected 3.3 [V].
-This was due to placing a 47k 47k [$\Omega$]resistor as R4 instead of a 45.3k [$\Omega$] as specified in the schematics.
-The 47k [$\Omega$] resistor was paralleled with a 1.5M [$\Omega$] resistor to yield a resistance of xx and a voltage of 3.33 V.
-
-%\mikkel{Skal vi snakke om prel her eller senere}
-
-Due to mechanical bouncing in the power switch, the power off sequence is messy. (see the data)
-This could possibly be solved using a low-pass filter and maybe a schmitt-trigger circuit.
-
+Measuring the voltage level of \texttt{VCCIO} showed it to be 3.4 [V] rather than the expected 3.3 [V].
+This was due to placing a 47 [k$\Omega$] resistor as \texttt{R4} instead of a 45.3 [k$\Omega$] as specified in the schematics.
+The 47 [k$\Omega$] resistor was paralleled with a 1.5 [M$\Omega$] resistor to yield a resistance of 45.6 [k$\Omega$] and a voltage of 3.33 V.
 
 \subsection{Carrier Card Power Sequencing}
-As described in section \ref{sub:carrier_design} the carrier card is designed to provide the needed power sequencing on startup and shutdown.
+As described in section \ref{sub:microzed_carrier_card} the carrier card is designed to provide a specific power sequence on startup and shutdown.
 
 \subsubsection*{Startup}
 To verify the proper startup power sequence of the Swarm carrier the signals \texttt{VCC}, \texttt{2V5REF}, \texttt{VCCIO\_EN} and \texttt{VCCIO} were measured and plotted in figure \ref{fig:startup_swarm}.
 \cite{design_carrier} dictates that POWER\_EN signal must be pulled high on powerup, which was measured to be true.
 \texttt{VCCIO\_EN} is produced by the MicroZed and is plotted in figure \ref{fig:startup_swarm}. 
-It can be seen that \texttt{VCCIO\_EN} rises to its logical level, 1.8 [V], then goes low for a while and hereafter going high, which is not the expected behavior,
-To determine if this behavior was caused by an issue on the Swarm carrier the value of AVNET carrier  was measured at startup when connecting the MicroZed to the AVNET carrier card.
+It can be seen that \texttt{VCCIO\_EN} rises to its logical level, 1.8 [V], then goes low for a while and hereafter goes high, which is not the expected behavior.
+To determine if this behavior was caused by an issue on the Swarm carrier the value of \texttt{VCCIO\_EN} on the AVNET carrier was measured at startup when connecting the MicroZed to the AVNET carrier card.
 The two measurements of \texttt{VCCIO\_EN} at startup is plotted in figure \ref{fig:startup_vccioen}.
 It is seen that the two datasets are nearly identical concluding that the Swarm and AVNET carrier card yields the same behavior.
 As \texttt{VCCIO\_EN} has the same behavior when connecting the MicroZed to the AVNET carrier it is believed to be non problematic.
@@ -76,13 +73,15 @@ Figure \ref{fig:shutdown} shows that to be true.
 	\caption{Measured signals on the Swarm carrier card at shutdown.}
 	\label{fig:shutdown}
 \end{figure}
-
+It should be noted that figure \ref{fig:shutdown} only shows the first few microseconds after toggling the power switch.
+In figure \ref{fig:shutdown_bounce} the first millisecond is shown and it can be seen that the switch creates quite a lot of bouncing on \texttt{V\_OFF}.
+The bouncing could be removed by designing and inferring a low pass filter to the circuit, possibly with a Schmitt trigger circuit to generate a clean edge.
 
 \begin{figure}
 	\centering
     \input{graphics/shutdown_w_noise_graph.tex}
-	\caption{Measured signals on the Swarm carrier card at shutdown.}
-	\label{fig:shutdown}
+	\caption{Measured signals on the Swarm carrier card at shutdown. Full sequence is shown.}
+	\label{fig:shutdown_bounce}
 \end{figure}
 
 \subsection{Discharge Curve of the Ansmann 2S1P} % (fold)
@@ -123,3 +122,17 @@ Table
 \end{figure}
 % subsection discharge_curve_of_the_ansmann_2s1p (end)
 %\mikkel{Alle signaler i texttt}
+
+\subsubsection*{IO ports}
+To ensure the functionality of the IO ports and the MicroZed in general two tests were performed.
+In the first test a VHDL program was written to turn on a LED connected to a IO port. 
+It worked, which led to the conclusion that the PL part of the MicroZed and the IO port worked properly.
+
+In the next test a C program was written to make a LED blink.
+This test also succeeded, which led to the conclusion that both the PS and PL part of the MicroZed worked properly.
+
+\subsubsection*{Conclusion}
+The problems on the carrier card were found and fixed through systematic debugging.
+The carrier card has the wanted powerup and powerdown sequence which was measured using an oscilloscope. 
+On shutdown the power switch introduces bouncing on the \texttt{V\_OFF} signal which could be filtered away by a low pass filter.
+The PS, PL and IO functionalities of the MicroZed when connected to the carrier were verified through tests.
