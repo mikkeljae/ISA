@@ -101,7 +101,9 @@ Although it should be noted that this is a theoretical maximum and that it is un
 As with any battery, due to the internal resistance of the battery the voltage seen at the terminals depends heavily on the current being drawn.
 The platform will remain functional so long as the voltage remains above 6.1V, the minimum voltage required to maintain \texttt{VCC}, the rail supplying the MicroZed.
 The speed of the motors will however decline as the battery discharges.
-Table 
+From table \ref{tab:discharge} it can be seen that discharging at 2A will give 4320 seconds or 72 minutes of use.
+Note that the graphs were acquired using two batteries in order to shorten the time required to finish the test.
+This may have a marginal impact on the results, but is assumed to be irrelevant.
 
 \begin{table}
   \centering
@@ -109,10 +111,14 @@ Table
     \hline
     Current [A] & 4 & 3 & 2 & 1 \\
     \hline
-    Time [S] & 2340 & 3060 & &  \\
+    Time [S] & 2340 & 3060 & 4320 &  \\
+    \hline
+    Voltage[V] & 5.326 & 5.294 & 5.562 &\\
     \hline
   \end{tabular}
-\end{table}
+  \caption{Table showing the discharge current, the time to discharge the battery fully and the last measured voltage before the undervoltage protection activates.}
+  \label{tab:discharge}
+\end{table}h
 
 \begin{figure}
   \centering
