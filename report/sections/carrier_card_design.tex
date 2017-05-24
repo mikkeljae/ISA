@@ -129,7 +129,7 @@ Such a MOSFET circuit is shown in figure \ref{fig:pwr_en_circuit}.
 \subsection{Anti Aliasing Filters}
 -Anti-Aliasing filter, place close to BERGSTAK header, UG480 p. 80, add note on sampling frequency equation.
 
-\subsection{Buzzer Solution...}
+\subsection{Buzzer Solution}
 As described in section \ref{sub:click_generator} it was found that the best solution for creating a click noise on the platform was to use a piezo speaker with a drive circuit and a \texttt{PWM} signal.
 But because there has been made no further investigation into what sound level is needed and what the frequency spectrum of the generated click is, it was decided to leave the circuitry out of the carrier card.
 Furthermore the sound source should be placed in the center of the robot to ease localization of the robot, but the design of the carrier card did not allow this.
@@ -152,4 +152,6 @@ Two holes were added to the carrier card to allow for fixture of the external pi
 \subsection{Pinout}
 
 \subsection{Choice of Components}
-As mentioned the choice of components is largely based upon the Avnet carrier card.
+As mentioned, the choice of components is largely based upon the Avnet carrier card.
+Generally the same components were chosen, but because of pricing, availability or ordering batch size similar components were chosen instead.
+Table \ref{tab:components1} and \ref{tab:components2} in appendix \ref{app:components} explains what components were chosen and why.
