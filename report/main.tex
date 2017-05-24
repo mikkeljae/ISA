@@ -21,6 +21,10 @@
 % Should force tikz to only run once on each included .tex file
 \usetikzlibrary{external} 
 \tikzexternalize
+%in LatexTools > settings-user, add the following after "display_log": "false",
+%"program": "pdflatex",
+%"command": ["latexmk", "-cd", "-e", "$pdflatex = '%E -shell-escape -interaction=nonstopmode -synctex=1 %S %O'", "-f", "-pdf"],
+
 
 \newcommand{\thomas}[1]{\todo[inline,color=black!30]{Thomas: #1}}
 \newcommand{\mikkel}[1]{\todo[inline,backgroundcolor=red!40]{Mikkel: #1}}
