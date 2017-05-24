@@ -1,0 +1,50 @@
+%!TEX root = ../main.tex
+\section{Components}
+\label{app:components}
+
+
+\begin{table}
+
+\centering
+\caption{My caption}
+\label{my-label}
+\begin{tabular}{|p{0.5cm}|p{2cm}|p{1.5cm}|l|l|p{5cm}|}
+\hline
+\#      & Component              & Quantity & MicroZed Carrier Card & SwarmBot Carrier Card & Comment                                                                                                                                                                                                      \\ \hline
+1       & Capacitor              & 7        & 0805ZD226MAT2A        & GRM21BR60J226ME39L    & Found equivalent capacitor as the original comes in packages of 3000.                                                                                                                                        \\ \hline
+2       & DNP                    &          &                       &                       &                                                                                                                                                                                                              \\ \hline
+3       & Capacitor              & 8        & 06035C104KAT2A        & GCM21BR71H104KA02L    & Found equivalent capacitor with 0805 footprint                                                                                                                                                               \\ \hline
+4       & Capacitor              & 4        & 04023C104KAT2A        & C0805C103K5RACTU      & Original was out of stock. Found equivalent capacitor with 0805 footprint                                                                                                                                    \\ \hline
+5       & Connector              &          &                       &                       & Equivalent ones will be found at the component storage at SDU                                                                                                                                                \\ \hline
+6       & MicroUSB               & 1        & 1981584-1             & 47589-0001            & Original needs to be bought in packs of 10. Found a cheaper equivalent one that can be bought in packs of 5.                                                                                                 \\ \hline
+7       & DNP                    &          &                       &                       &                                                                                                                                                                                                              \\ \hline
+8       & Schottky Diode         & 1        & MBR230LSFT1G          & SBR2A40P1-7           & Original only ships in packs of 50. Found a a similiar diode with. Has a a higher forward voltage drop, but rough calculations estimate that it will only decrease the efficiency with one percentage point. \\ \hline
+9       & Schottky Diode         & 2        & BAT54LT1G             & SBR2A40P1-7           & The SBR2A40P1-7 diode is better in all aspects and 25 of them are already bought for \#8                                                                                                                     \\ \hline
+10      & Jumper                 &          & 969102-0000-DA        &                       & Is not needed on the SwarmBot Carrier Card.                                                                                                                                                                  \\ \hline
+11      & Connector              &          & 5-146257-3            &                       & Is not needed on the SwarmBot Carrier Card.                                                                                                                                                                  \\ \hline
+12      & Bergstak connector     & 2        & 61083-104400LF        & 61083-104400LF        &                                                                                                                                                                                                              \\ \hline
+13      & Inductor               & 1        & SRN5020-2R2Y          & SRN5020-2R2Y          &                                                                                                                                                                                                              \\ \hline
+14      & DNP                    &          &                       &                       &                                                                                                                                                                                                              \\ \hline
+\end{tabular}	
+\end{table}
+
+\begin{table}
+\centering
+\caption{My caption}
+\label{my-label}
+\begin{tabular}{|p{0.5cm}|p{2cm}|p{1.5cm}|l|l|p{5cm}|}
+\hline
+
+15      & MOSFET                 & 2        & BSS138LT1G            & BSS138LT1G            &                                                                                                                                                                                                              \\ \hline
+16 - 32 & Resistors              &          &                       &                       & Equivalent ones will be found at the component storage at SDU                                                                                                                                                \\ \hline
+33      & Converter              & 1        & LMR10510XMFE/NOPB     & LMR10510XMFE/NOPB     &                                                                                                                                                                                                              \\ \hline
+34      & Switch                 & 1        & 1101-M2-S3-C-Q-E-2    &  1101M2S3CQE2         &                                                                                                   \\ \hline
+35      & DNP                    &          &                       &                       &                                                                                                                                                                                                              \\ \hline
+36      & Comparator             & 1        & AP331AWG-7            & LMV331QDBVRQ1         & Original ships in packs of 50. New comparator is compatible, faster and ships in packs of 5.                                                                                                                 \\ \hline
+37      & Programmable reference & 1        & TL431AIDBZR           & TL431AIDBZR           &                                                                                                                                                                                                              \\ \hline
+x      & Capacitor for anti-aliasing filter  & 4        & NA           & 08055C102KAT2A           &  Similar to the one used in the MicroZed I/O carrier card and with the 0805 footprint                                                                                                                                                                                                      \\ \hline
+x      & Resistors for anti-aliasing fitler  & 8        & NA           &            &  SDUs storage                                                                                                                                                                                                     \\ \hline
+
+
+\end{tabular}
+\end{table}
