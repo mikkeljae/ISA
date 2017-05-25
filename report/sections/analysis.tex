@@ -197,14 +197,16 @@ Therefore its current draw is left out.
 
 \subsubsection{Power Dissipation} % (fold)
 \label{sec:power_dissipation}
-When using a linear voltage regulator the power dissipation is as follows:
-$$P_d = (V_{in} - V_{out}) \cdot I_{load}$$
-In the average case the battery voltage is thought to be the the nominal voltage, using the found drawn current at 5[V] the power dissipation is found.
+When using a linear voltage regulator the power dissipated in the component can be calculated using:
+$$P_{lr} = (V_{in} - V_{out}) \cdot I_{load}$$
+
+The power dissipation in the linear regulalator can be found using the current estimation at 5[V] and the fact that the battery has a nominal voltage of 7.4 [V]:
 $$P_{lr} = (7.4 [V] - 5.0 [V]) \cdot 0.636 [A] = 1.5 [W]$$
 
-If a switching regulator is used the voltage conversion will happen at a significantly higher efficiency.
-The pth08080w has a typical efficiency of $93.5\%$ at 5 [V] \cite{pth08080}.
-The power dissipated in that would be:
+If a switching regulator is used the voltage conversion will have a significantly higher efficiency.
+The \texttt{pth08080w} has a typical efficiency of $93.5\%$ at 5 [V] \cite{pth08080}.
+The power dissipated in the DCDC converter would be:
+$$P_{sw} = V_{in} \cdot I_{load} \cdot (1 - \eta) $$
 $$7.4 [V] \cdot 0.636 [A] \cdot 0.065 = 0.3 [W]$$
 
 
