@@ -1,4 +1,5 @@
 %!TEX root = ../main.tex
+
 \section{Introduction}
 A platform for research of flocking behaviour in swarms of robots was developed throughout the bachelor's thesis, ``Investigating Bio-inspired Object Avoidance in a Swarm of Mobile Robots''.
 Throughout that project an analysis was carried out in order to determine the requirements of the system.
@@ -109,10 +110,8 @@ This is a full-bridge capable of continuously supplying sufficient power to driv
 While the driver is maintained, a new board will have to be devised to house this driver.
 % subsection motor_driver (end)
 
-\subsection{Power and Current limitations} % (fold)
+\subsection{Current Limitations} % (fold)
 \label{sub:power_and_current_limitations}
-It was chosen to use linear regulators to supply the 5 and 3.3V rails.
-This project will analyse whether the added cost of using switch-mode converters is worth the additional cost.
 A number of fuses were added to limit the current to the motors as well as the current draw from the battery.
 The battery however, includes a ``safety board'' which limits the maximum possible current draw, making this fuse irrelevant.
 The fuses on the motors can be excluded by instead running a check in software such that when a voltage is applied, the encoder signal must represent movement, or the voltage will be cut.
@@ -141,25 +140,34 @@ The board must support a number of components and circuits, listed below.
 
 \subsection{Power Calculations} % (fold)
 \label{sub:power_calculations}
+In the precious project it was chosen to use linear regulators to supply the 5 and 3.3V rails.
+This project will analyse whether the added cost of using switch-mode converters is worth the additional cost.
+It will be analyzed how much power is drawn from the 5 [V] and battery voltage rail.
+It has been found that the DCDC converter, \texttt{pth08080w}, is suitable for this project and this components specifications will be used for calculations. 
+Furthermore it will be calculated how much more drivetime using a DCDC converter will give and if it is worth the added cost. 
 
-\subsubsection{5 [V] rail} % (fold)
+\subsubsection*{5 [V] Rail} % (fold)
 
 % subsection subsection_name (end)
-Running at 5[V]:
+The following are powered at the 5[V] rail:
 \begin{itemize}
 	\item Microphones including circuitry, $11$[mA]
-	\item SBC, $500$[mA]
-	\item Two microcontrollers, $5$[mA]
-	\item Six LED channels, $120$[mA]
+	\item Zynqbased embedded platform, $500$[mA]
+	\item Two motorcontrollers, $5$[mA]
+	\item Six LEDs, $120$[mA]
 \end{itemize}
+The current estimation of the microphones, motorcontrollers and LEDs are based upon datasheet values. 
+Whereas the current estimation for the Zynqbased platform is based upon previous projects current measurements. 
+The current drawn by the Zynq is obviously dependent on the program running, which is not known.
+500 [mA] is by no means the maximum current draw that can be expected from a Zynqbased platform, as the MicroZed draws 1.7 [A] at 85\% utilization \cite{microzed_hardware_guide}.
 
-Resulting in a total of $636$ [mA] being drawn from the 5[V] rail.
+The total 5 [V] rail current estimation results in a total of $636$ [mA].
 
-\subsubsection{Battery rail} % (fold)
+\subsubsection*{Battery Voltage Rail} % (fold)
 
-Only the motor will be running directly off the battery rail.
+The motors will be running directly off the battery rail.
 To measure the current drawn by the motors a small test was conducted.
-Three different voltages were applied to the motors by a power supply. 
+Three different voltages were applied to the motors using a power supply. 
 The results are shown in table \ref{tab:motor_power}.
 
 \begin{table}[h]
@@ -175,6 +183,8 @@ Fast driving         & 8  & 350  \\ \hline
 \end{tabular}
 \end{table}
 
+The piezo speaker is also be powered by the battery voltage rail, but it uses no significant power as a piezo does not use a lot of power and it is only producing sounds for a few milliseconds each second. 
+Therefore its current draw is left out.
 
 \subsubsection{Power Dissipation} % (fold)
 \label{sec:power_dissipation}
@@ -184,7 +194,7 @@ In the average case the battery voltage is thought to be the the nominal voltage
 $$P_{lr} = (7.4 [V] - 5.0 [V]) \cdot 0.636 [A] = 1.5 [W]$$
 
 If a switching regulator is used the voltage conversion will happen at a significantly higher efficiency.
-The pth08080w has a typical efficiency of $93.5\%$ at 5 [V].
+The pth08080w has a typical efficiency of $93.5\%$ at 5 [V] \cite{pth08080}.
 The power dissipated in that would be:
 $$7.4 [V] \cdot 0.636 [A] \cdot 0.065 = 0.3 [W]$$
 
