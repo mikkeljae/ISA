@@ -41,7 +41,16 @@ The sound of a Piezo transducer is amplified when placed in a plastic housing wi
 This housing and the size of the hole should be designed to amplify the specific piezo transducer's resonant freqency.
 Designing such a housing is unfeasable, considering how cheaply a finished product can be procured.
 A piezo element is generally designed to generate sound with a specific frequency.
-The reason why is seen by inspectiong the frequency response curve of a piezo transducer.
+This can be seen by inspection of the frequency response curve of a piezo transducer.
+A depiction of a typical response curve can be seen in figure \ref{fig:piezo_response}
+
+\begin{figure}
+	\centering
+	\includegraphics[width=.5\linewidth]{graphics/piezo_response.png}
+	\caption{Typical frequency response of a piezo electric transducer. This particular model is most effective at approximately 5kHz and 18kHz.}
+	\label{fig:piezo_response}
+\end{figure}
+
 Generally there are a range of frequencies around the resonant frequency that are at a much higher sound level than the rest of the frequencies.
 Frequencies not in close range of the resonant frequencies are often attenuated by decades of dB.
 This makes a normal piezo unfit for generating a click sound as this is approximated by a short frequency sweep.
@@ -165,12 +174,12 @@ The results are shown in table \ref{tab:motor_power}.
 \centering
 \caption{My caption}
 \label{tab:motor_power}
-\begin{tabular}{|l|l|l|}
+\begin{tabular}{|l|c|c|}
 \hline
-\textbf{Description} & Voltage, [V]   & Current, [mA]      \\ \hline
-Barely driving       & 1  & 220  \\ \hline
-Medium driving speed & 5  & 305  \\ \hline
-Fast driving         & 8  & 350  \\ \hline
+\textbf{Velocity} & Voltage, [V]   & Current, [mA]      \\ \hline
+Low     & 1  & 220  \\ \hline
+Medium & 5  & 305  \\ \hline
+High         & 8  & 350  \\ \hline
 \end{tabular}
 \end{table}
 
@@ -197,29 +206,28 @@ The power dissipated in the motor and motor controller is as in table \ref{tab:p
 \centering
 \caption{My caption}
 \label{tab:power_motor}
-\begin{tabular}{|l|l|}
+\begin{tabular}{|l|c|}
 \hline
-\textbf{Description} & Power, [W]     \\ \hline
-Barely driving       & 0.2 \\ \hline
-Medium driving speed & 1.5 \\ \hline
-Fast driving         & 2.8 \\ \hline
+\textbf{Velocity} & Power, [W]     \\ \hline
+Low       & 0.2 \\ \hline
+Medium & 1.5 \\ \hline
+High         & 2.8 \\ \hline
 \end{tabular}
 \end{table}
 
-The batteries have a capacity of $2600$ [mAH], giving the following driving times.
-\counterwithin{figure}{section}
+The batteries have a capacity of $2600$ [mAH], giving the following driving times. as
 
 \begin{table}[h]
-\centering
-\caption{My caption}
-\label{my-label}
-\begin{tabular}{|l|l|p{2cm}|p{2cm}|p{2cm}|p{2cm}|}
-\hline
-\textbf{Description} & $P$, LR {[}W{]} & $P$, SW {[}W{]} & $T$, LR [S]& $T$, SW [S] & \% more $T$ \\ \hline
-Barely driving       & 4.9                         & 3.7                               & 3.9              & 5.2                      & 33                 \\ \hline
-Medium driving speed & 6.2                         & 5                                 & 3.1              & 3.8                      & 23                 \\ \hline
-Fast driving         & 7.5                         & 6.3                               & 2.6              & 3.1                      & 19                 \\ \hline
-\end{tabular}
+	\centering
+	\caption{My caption}
+	\label{my-label}
+	\begin{tabular}{|l|c|c|c|c|c|}
+		\hline
+		\textbf{Velocity} & $P_{LR}$ & $P_{SW}$ & $T_{LR}$& $T_{SW}$ & \% \textbf{more} $T$ \\ \hline
+		Low       & 4.9                         & 3.7                               & 3.9              & 5.2                      & 33                 \\ \hline
+		Medium  & 6.2                         & 5                                 & 3.1              & 3.8                      & 23                 \\ \hline
+		High      & 7.5                         & 6.3                               & 2.6              & 3.1                      & 19                 \\ \hline
+	\end{tabular}
 \end{table}
 
 % subsection power_calculations (end)

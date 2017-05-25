@@ -67,6 +67,7 @@ To verify the proper shutdown power sequence of the Swarm carrier the signals \t
 Then the signals \texttt{VCCIO\_EN}, \texttt{POWER\_EN} and \texttt{DCDC\_EN} should be pulled low in that order.
 Figure \ref{fig:shutdown} shows that to be true.
 
+
 \begin{figure}[h]
 	\centering
     \input{graphics/shutdown_graph.tex}
@@ -83,6 +84,7 @@ The bouncing could be removed by designing and inferring a low pass filter to th
 	\caption{Measured signals on the Swarm carrier card at shutdown. Full sequence is shown.}
 	\label{fig:shutdown_bounce}
 \end{figure}
+
 
 \subsection{Discharge Curve of the Ansmann 2S1P} % (fold)
 \label{sub:discharge_curve_of_the_ansmann_2s1p}
