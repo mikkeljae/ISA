@@ -149,11 +149,11 @@ The board must support a number of components and circuits, listed below.
 
 \subsection{Power Calculations} % (fold)
 \label{sub:power_calculations}
-In the precious project it was chosen to use linear regulators to supply the 5 and 3.3V rails.
+In the previous project it was chosen to use linear regulators to supply the 5 and 3.3V rails.
 This project will analyse whether the added cost of using switch-mode converters is worth the additional cost.
 It will be analyzed how much power is drawn from the 5 [V] and battery voltage rail.
 It has been found that the DCDC converter, \texttt{pth08080w}, is suitable for this project and this components specifications will be used for calculations. 
-Furthermore it will be calculated how much more drivetime using a DCDC converter will give and if it is worth the added cost. 
+Furthermore it will be calculated how much more drive time using a DCDC converter will give and if it is worth the added cost. 
 
 \subsubsection*{5 [V] Rail} % (fold)
 
@@ -175,73 +175,78 @@ The total 5 [V] rail current estimation results in a total of $636$ [mA].
 \subsubsection*{Battery Voltage Rail} % (fold)
 
 The motors will be running directly off the battery rail.
-To measure the current drawn by the motors a small test was conducted.
+To measure the current drawn by the motors and motorcontrollers a small test was conducted.
 Three different voltages were applied to the motors using a power supply. 
+Voltage and current measurements were made while the robot drove. 
 The results are shown in table \ref{tab:motor_power}.
 
 \begin{table}[h]
 \centering
-\caption{My caption}
+\caption{Voltage, current and power of motors and motorcontrollers measured at different velocities.}
 \label{tab:motor_power}
-\begin{tabular}{|l|c|c|}
+\begin{tabular}{|l|c|c|c|}
 \hline
-\textbf{Velocity} & Voltage, [V]   & Current, [mA]      \\ \hline
-Low     & 1  & 220  \\ \hline
-Medium & 5  & 305  \\ \hline
-High         & 8  & 350  \\ \hline
+\textbf{Velocity} & Voltage, [V]   & Current, [mA] & Power, [W]      \\ \hline
+Low     	& 1  & 220 & 0.2 \\ \hline
+Medium 		& 5  & 305 & 1.5 \\ \hline
+High        & 8  & 350 & 2.8 \\ \hline
 \end{tabular}
 \end{table}
 
 The piezo speaker is also be powered by the battery voltage rail, but it uses no significant power as a piezo does not use a lot of power and it is only producing sounds for a few milliseconds each second. 
 Therefore its current draw is left out.
 
-\subsubsection{Power Dissipation} % (fold)
+\subsubsection*{Power Dissipation} % (fold)
 \label{sec:power_dissipation}
 When using a linear voltage regulator the power dissipated in the component can be calculated using:
-$$P_{lr} = (V_{in} - V_{out}) \cdot I_{load}$$
+$$P_{LR} = (V_{in} - V_{out}) \cdot I_{load}$$
 
 The power dissipation in the linear regulalator can be found using the current estimation at 5[V] and the fact that the battery has a nominal voltage of 7.4 [V]:
-$$P_{lr} = (7.4 [V] - 5.0 [V]) \cdot 0.636 [A] = 1.5 [W]$$
+$$P_{LR} = (7.4 [V] - 5.0 [V]) \cdot 0.636 [A] = 1.5 [W]$$
 
 If a switching regulator is used the voltage conversion will have a significantly higher efficiency.
 The \texttt{pth08080w} has a typical efficiency of $93.5\%$ at 5 [V] \cite{pth08080}.
 The power dissipated in the DCDC converter would be:
-$$P_{sw} = V_{in} \cdot I_{load} \cdot (1 - \eta) $$
-$$7.4 [V] \cdot 0.636 [A] \cdot 0.065 = 0.3 [W]$$
+$$P_{SW} = V_{in} \cdot I_{load} \cdot (1 - \eta) $$
+$$P_{SW} = 7.4 [V] \cdot 0.636 [A] \cdot 0.065 = 0.3 [W]$$
 
 
-The power dissipated at the 5 [V] rail is:
-$$P_{5V} = 0.636 [A] \cdot 5 [V] = 3.18 [W]$$
+The total power drawn at the 5 [V] rail is:
+$$P_{5V} = 0.636 [A] \cdot 5 [V] = 3.2 [W]$$
 
-The power dissipated in the motor and motor controller is as in table \ref{tab:power_motor}.
+Based on the measurements of voltages and currents of the motors and motorcontrollers, the power dissipated were calculated to be as in table \ref{tab:motor_power}.
+The total power usage can be calculated as the sum of the combined powers.
+$$P_{T} = P_{reg} + P_{motor} + P_{5V}$$ 
+Calculating the total power usage at low velocity and using a linear regulator yields:
+$$P_{T,LR} = 1.5 + 0.2 + 3.2 = 4.9 [W]$$ 
+The total power at the three velocities is calculated using a linear regulator or a DCDC converter and is shown in table \ref{tab:drive_time}. 
 
-\begin{table}[h]
-\centering
-\caption{My caption}
-\label{tab:power_motor}
-\begin{tabular}{|l|c|}
-\hline
-\textbf{Velocity} & Power, [W]     \\ \hline
-Low       & 0.2 \\ \hline
-Medium & 1.5 \\ \hline
-High         & 2.8 \\ \hline
-\end{tabular}
-\end{table}
-
-The batteries have a capacity of $2600$ [mAH], giving the following driving times. as
+\subsubsection*{Drive Time}
+The amount of energy the battery can store should be calculated in order to calculate the drive time of the robot.
+The batteries have a capacity of $2600$ [mAH] \cite{battery}.
+Converted to Joule: 
+$$ E_{bat} = 2.6 [AH] \cdot 7.4 [V]  \cdot 3600 = 69.3 [kJ]$$
+The drive time can then be calculated: 
+$$ T = \frac{E_{bat}}{P_T} $$
+Specifically for low velocity and using a linear regulator:
+$$ T_{LR} = \frac{E_{bat}}{P_{T,LR}} = \frac{69.3 [kJ]}{4.9 [W]} = 14143 [s] $$
+Which corresponds to 3.9 [h]. The calculation is done for all scenarios and the results are shown in table \ref{tab:drive_time}.
+Finally the extra drive time obtained by using a switching regulator rather than a linear regulator is calculated and shown in percent in table \ref{tab:drive_time}.
 
 \begin{table}[h]
 	\centering
-	\caption{My caption}
-	\label{my-label}
+	\caption{Total power and drive times using linear regulator or switching regulator. The obtained extra drive time by using a switching regulator is given in percent.}
+	\label{tab:drive_time}
 	\begin{tabular}{|l|c|c|c|c|c|}
 		\hline
-		\textbf{Velocity} & $P_{LR}$ & $P_{SW}$ & $T_{LR}$& $T_{SW}$ & \% \textbf{more} $T$ \\ \hline
-		Low       & 4.9                         & 3.7                               & 3.9              & 5.2                      & 33                 \\ \hline
-		Medium  & 6.2                         & 5                                 & 3.1              & 3.8                      & 23                 \\ \hline
-		High      & 7.5                         & 6.3                               & 2.6              & 3.1                      & 19                 \\ \hline
+		\textbf{Velocity} & $P_{T,LR}$ [W]& $P_{T,SW}$ [W]& $T_{LR}$ [h]& $T_{SW}$ [h]& \% \textbf{more} $T$ \\ \hline
+		Low       	& 4.9                         & 3.7                               & 3.9              & 5.2                      & 33                 \\ \hline
+		Medium  	& 6.2                         & 5                                 & 3.1              & 3.8                      & 23                 \\ \hline
+		High      	& 7.5                         & 6.3                               & 2.6              & 3.1                      & 19                 \\ \hline
 	\end{tabular}
 \end{table}
 
+Using a switching regulator yields a minimum of 19\% more drive time compared to using a linear regulator.
+On the basis of the results it is concluded that using a switching regulator is worth the additional cost.
 % subsection power_calculations (end)
 % section analysis (end)
