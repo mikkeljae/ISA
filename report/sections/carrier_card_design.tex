@@ -109,7 +109,8 @@ When the power switch on the carrier card is in off mode, the battery voltage is
 The correct sequence is maintained by charging capacitors on the gate side of the mosfets thereby creating a delay.
 Such a mosfet circuit is shown in figure \ref{fig:pwr_en_circuit}.
 
-\subsection{Analog to Digital Converter}
+\subsection{Analog to Digital Converter} % (fold)
+\label{sub:analog_to_digital_converter}
 The Zynq 7-series FPGA's are equipped with a dual, 12 bit ADC, yet has only one dedicated analog differential pair, \texttt{VP\_0} and \texttt{VN\_0}.
 See figure \ref{fig:adc} for an overview of the XADC architechture
 If more ADC channels are needed, any of the 16 auxiliary analog inputs (AAI) can be used.
@@ -146,7 +147,7 @@ Resistors \texttt{R3}, \texttt{R4} and the capacitor \texttt{C1} can be adjusted
 	\label{fig:anti_a}
 \end{figure}
 
-
+% subsection analog_to_digital_converter (end)
 \subsection{Buzzer Solution}	
 As described in section \ref{sub:click_generator} it was found that the best solution for creating a click noise on the platform was to use a piezo speaker with a drive circuit and a \texttt{PWM} signal.
 But because there has been made no further investigation into what sound level is needed and what the frequency spectrum of the generated click is, it was decided to leave the circuitry out of the carrier card.
@@ -170,3 +171,25 @@ Two holes were added to the carrier card to allow for fixture of the external pi
 As mentioned, the choice of components is largely based upon the Avnet carrier card.
 Generally the same components were chosen, but because of pricing, availability or ordering batch size similar components were chosen instead.
 Table \ref{tab:components1} and \ref{tab:components2} in appendix \ref{app:components} explains what components were chosen and why.
+
+\subsection{Swarmbot Carrier Card Layout} % (fold)
+\label{sub:swarmbot_carrier_card_layout}
+The layout of the swarmbot carrier card was done using Altium Designer.
+From an early stage it was decided to have the board manufactured by a professional outlet as this would both greatly ease the layout process and, hopefully, minimize the potential points of failure in debugging process.
+The former, a simpler layout process, is expected for a number of reasons outlined below:
+\begin{itemize}
+  	\item \textbf{Mutlilayer Board:} Due to the size constraints of the board it is desirable to minimize the number of traces that are required to be routed on the board.
+  	Creating a 4-layer board means that the two middle layers can be \texttt{GND} and \texttt{VCC}, allowing every connection to either of these plains to be done using a simple via.
+  	\item \textbf{Feature Size:} The manufacturing method used at SDU is not reliable at tracewidths below 20mil and all vias must be drilled by hand, resulting in signal traces being far wider than what is actually required.
+  	The manufacturer used to produce the swarmbot carrier card \cite{itead} allows traces as low as 8mil and vias at 12mil.
+  	\item \textbf{Plated Vias:} The vias created by the manufacturer are plated with copper, meaning that, when using throughhole components the trace can be routed on both the top and bottom layers.
+  	This greatly reduces the number of vias required for the layout.
+  \end{itemize}
+Finally, as was alluded to in the previous paragraphs, the manufacturing process at SDU is not particularly robust and often requires several attempts before the correct combination of incantations, candles and luck is found and a fully functional board is created.
+\\~\\
+The board has three trace widths: 40mil for \texttt{VBATT}, 20mil for \texttt{VCCIO} and 8mil for the remaining signal wires.
+Mostly, the size of the board is due to the number of connectors that are required.
+For this reason there is plenty of room for components and generally capacitors and resistors were chosen with an 0805 footprint.
+The anti-aliasing filters described in section \ref{sub:analog_to_digital_converter} are required to be placed close to the Bergstak connectors (the connector for mounting the MicroZed), which has a 0.8mm pitch.
+Using 0805 components here is infeasible due to size constraints and it was decided to use 0402 instead.
+% subsection swarmbot_carrier_card_layout (end)
