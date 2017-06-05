@@ -40,11 +40,11 @@ A number of the requirements, which are outlined in this section, would result i
 As mentioned, this section will define the requirements for the MicroZed carrier card to be designed.
 Avnet provides a carrier card design guide~\cite{design_carrier} that describes some of the requirements.
 It describes how to utilize the Zynq chip on the MicroZed board.
-In this project, only a number of general I/Os and the two ADCs are needed.
+In this project, only a number of general I/Os are needed.
+Two ADCs are added for the possibility of utilising them at a later stage.
 This carrier card however, is expected to be used across a number of other, yet undefined projects.
 For this reason the card is designed in a more general fashion, rather than specifically for the swarmbot.
 Below is a list of the features the carrier card is designed to support.
-\mikkel{ADCs are not used}
 \begin{itemize}
 	\item ADC, not used on the swarmbot.
 	\item Motor Drivers capable of driving the swarmbot.

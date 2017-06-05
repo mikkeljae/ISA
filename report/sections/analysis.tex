@@ -1,8 +1,7 @@
 %!TEX root = ../main.tex
 
 \section{Introduction}
-A platform for research of flocking behaviour in swarms of robots was developed throughout the bachelor's thesis, ``Investigating Bio-inspired Object Avoidance in a Swarm of Mobile Robots''.
-\thomas{insert names of students?}
+A platform for research of flocking behaviour in swarms of robots was developed throughout the bachelor's thesis, ``Investigating Bio-inspired Object Avoidance in a Swarm of Mobile Robots'' by Niels A. Hvid and Rasmus K. Stagsted.
 Throughout that project an analysis was carried out in order to determine the requirements of the system.
 This project aims to replace the Raspberry Pi with an FPGA platform, namely a Zynq platform.
 Using an FPGA/ARM combination is believed to better enable the use of swarm algorithms.
@@ -75,7 +74,6 @@ This element produces a sound with a constant frequency just by connecting it to
 This is very simply and allows for a minimal interface, but the internal drive circuit makes it impossible to produce a frequency sweep. 
 
 \subsubsection*{Piezo Speaker without Internal Drive Circuit}
-\thomas{Clearly, we developed a circuit for this, does that mean we chose this? needs some more explanation}
 This Piezo speaker is designed to have a more flat frequency response and is therefore suitable for producing a frequency sweep. 
 An external drive circuit needs to be developed as a drive circuit is not included with this product.
 The developed circuit can be seen in figure \ref{fig:buzzer_circuit}.
@@ -136,7 +134,7 @@ The board must support a number of components and circuits, listed below.
 \begin{itemize}
 	\item \textbf{Motor controller:} The BD6222HFP, a full-bridge motor controller, is used to generate the drive signals for the motors.
 	\item \textbf{Piezo:} Generating a click is done using a piezo transducer.
-	A transducer with an internal drive circuit will be used.
+	A transducer with an external drive circuit will be used.
 	\item \textbf{5V DC/DC Converter:} A DC/DC converter will be used to generate the 5V rail necessary to drive the embedded platform.
 	\item \textbf{Connections:} A number of connections has to be present on the board.
 	Passthrough for the microphone add-in board.
@@ -146,7 +144,6 @@ The board must support a number of components and circuits, listed below.
 	The necessary drive circuitry must be added.
 	\item \textbf{Microphone board:} A microphone board has been developed at SDU, supporting up to four SPH0641LU4H-1 digital microphones. The board must allow for interfacing with this microphone board.
 \end{itemize}
-\mikkel{Not true about the piezo.}
 % subsection electronics_board (end)
 
 \subsection{Power Calculations} % (fold)
