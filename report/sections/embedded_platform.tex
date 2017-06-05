@@ -3,8 +3,8 @@
 \label{sub:embedded_platform}
 Previously a Raspberry Pi was used to power the platform.
 As mentioned, it has been requested that the system is ported to a Zynq platform.
-Currently available to the authors are the Zybo and the Zynqberry platforms.
-Both are based around the Zynq-7010 chip.
+Currently available to the authors are the Zybo, MicroZed and Zynqberry platforms.
+All three are based around the Zynq-7010 chip.
 A number of GPIO ports are required; seven pins for PWM for the motors, four pins for encoders, four pins for microphones, one for a piezo transducer and six for two RGB LEDs.
 This amounts to a minimum of 22 pins required.
 %Potentially, an additional number of pins may be used to interface to debugging LED's.
@@ -18,16 +18,15 @@ Below is an overview of the pros and cons of the two platforms.
 	The different form factor requires that a new mounting solution is devised.
 	Additionally, the increased size means that the board will have to be mounted above the tracks to avoid interference.
 	While this is an inconvenience, it should not pose an issue in collisions as the edges of the board are still within the bounds of the robot.
-	At 48 total GPIO pins, the Zybo can supply the required GPIO\@.
+	At 48 total GPIO pins, the Zybo can supply the required GPIO.
 	\item \textbf{MicroZed:}
 	This platform is within the confines of the robot platform, but has a different formfactor than the Raspberry Pi and therefore the mounting solution would need a re-design.
 	It can be used as a stand-alone evaluation board, but needs to be combined with a carrier card if the PLs I/O pins are to be used.
-	This is because the I/O banks on the Zynq chip needs external powering, that the carrier card needs to supply.
+	This is because the I/O banks on the Zynq chip need external powering, supplied by the carrier card.
 	The 100 I/O pins on the MicroZed are accessed through two micro headers.
-	The company behind the MicroZed also ships different carrier boards that can be used.
+	The company behind the MicroZed also ship different carrier boards that can be used.
 	If a custom carrier board is needed, circuitry for control signals and power needs to be developed.
-	The online documentation for the MicroZed and carrier card is thorough and plentyfull including user guides, hardware guides, schematics, bill of materials.
-	The platform also has a much larger community than the Zynqberry.
+	The online documentation for the MicroZed and carrier card is thorough and plentyfull including user guides, hardware guides, schematics and bill of materials.
 \end{itemize}
 %All three platforms are based around the same chip and should therefore be similar in functionality.
 %The authors, however, do have prior knowledge with the Zybo platform.
@@ -36,19 +35,34 @@ The MicroZed is found to be the best choice for this project.
 Mainly because it is within the confines of the robot platform, gives access to 100 I/O pins and has solid documentation.
 
 \subsubsection*{MicroZed Carrier Card}
-This section will define the requirements for a MicroZed carrier card.
-MicroZed provides a carrier card design guide~\cite{design_carrier} that describes the requirements.
+It was decided to design a custom carrier card for the MicroZed.
+A number of the requirements, which are outlined in this section, would result in additional boards having to be connected to the Avnet carrier cards anyways and so it was decided to combine all of the functionality on one board.
+As mentioned, this section will define the requirements for the MicroZed carrier card to be designed.
+Avnet provides a carrier card design guide~\cite{design_carrier} that describes some of the requirements.
 It describes how to utilize the Zynq chip on the MicroZed board.
-In this project only a number of general I/Os and the two ADCs are needed.
-
-\mikkel{Write that it makes sense to develop a carrier card as it will be used elsewhere at the university as well.}
-
+In this project, only a number of general I/Os and the two ADCs are needed.
+This carrier card however, is expected to be used across a number of other, yet undefined projects.
+For this reason the card is designed in a more general fashion, rather than specifically for the swarmbot.
+Below is a list of the features the carrier card is designed to support.
+\mikkel{ADCs are not used}
 \begin{itemize}
-	\item Anti-aliasing filters for ADC inputs
-	\item Power for MicroZed board and Zynq I/O banks 34 and 35.
-	\item Correct power sequencing on boot
-	\item Passthrough of Zynq bank I/Os
-	\item Microheader connection to MicroZed
+	\item ADC, not used on the swarmbot.
+	\item Motor Drivers capable of driving the swarmbot.
+	\item Support for the digital microphone board, developed at SDU.
+	\item Support for click generator.
+	\item Passthrough of MicroZed GPIO.
+	\item Debug LEDs.
 \end{itemize}
 
+These points are the features that the user will be presented with when using the board.
+In addition to these, a number of requirements are set in the afforementioned design guide:
+
+\begin{itemize}
+	\item Anti-aliasing filters for ADC inputs.
+	\item Power for MicroZed board and Zynq I/O banks 34 and 35.
+	\item Correct power sequencing on boot/shutdown.
+	\item Microheader connection to MicroZed.
+\end{itemize}
+
+The following sections will outline how each of these points are addressed in the design of the carrier card.
 % subsection embedded_platform (end)

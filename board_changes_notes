@@ -1,0 +1,10 @@
+organize capacitors on schematic one
+more names on silk-screen
+3k92 0805 resistor
+3k74 0805 resistor /r7
+45k3 0805 resistor
+100  0402 resistor
+
+On/Off on silk-screen
+Resize pin holes for dc-dc converter
+change EN to IN (for inhibit) on the pth08080

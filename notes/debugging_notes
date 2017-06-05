@@ -1,0 +1,13 @@
+Power up board, measure voltages on power header.
+Toggling the power switch should enable/disable the VCC rail, it did not - the on/off circuitry must be faulty in some way.
+By inspection, it was found that the footprint of the mosfets Q1,Q2 and Q3 were wrong.
+Rotating the component fixed the issue and Vcc and subsequently 2v5 toggles correctly.
+
+Upon turning the board on VCCIO seems to go directly to 3.3V, but discharges slowly.
+The enable signal is low, indicating that the output from the comparator is wrong.
+The inputs to the comparator were swapped to fix the issue.
+
+The output voltage on VCCIO is 3.4V due to R4 being 47k rather than 45.3k, paralleling this with a 1.5M resistor gave 3.33 V instead.
+
+Due to mechanical bouncing in the power switch, the power off sequence is messy. (see the data)
+This could possibly be solved using a low-pass filter and maybe a schmitt-trigger circuit.

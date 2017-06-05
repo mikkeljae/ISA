@@ -1,3 +1,4 @@
+%!TEX program = lualatex
 \documentclass[11pt]{article}
 \usepackage[utf8]{inputenc}
 \usepackage{amsmath}
@@ -10,10 +11,32 @@
 \usepackage{dcolumn}
 \usepackage{rotating}			%Sidewaystable
 \usepackage{todonotes}
+\usepackage{subcaption}
+\usepackage{pgfplots}
+\usepackage{tikz}
+
+\usepackage{chngcntr}			%Make figure numbering reset on new section
+\counterwithin{figure}{section}
+\counterwithin{table}{section}
+\counterwithin{equation}{section}
+
+\pgfplotsset{compat=newest}
+
+% Should force tikz to only run once on each included .tex file
+\usetikzlibrary{external} 
+\tikzexternalize
+%in LatexTools > settings-user, add the following after "display_log": "false",
+%"program": "pdflatex",
+%"command": ["latexmk", "-cd", "-e", "$pdflatex = '%E -shell-escape -interaction=nonstopmode -synctex=1 %S %O'", "-f", "-pdf"],
 
 
 \newcommand{\thomas}[1]{\todo[inline,color=black!30]{Thomas: #1}}
 \newcommand{\mikkel}[1]{\todo[inline,backgroundcolor=red!40]{Mikkel: #1}}
+
+%Should disable running todo notes externally
+\makeatletter
+\renewcommand{\todo}[2][]{\tikzexternaldisable\@todo[#1]{#2}\tikzexternalenable}
+\makeatother
 
 %Information to be included in the title page:
 \title{Individual Study Activity}
@@ -21,9 +44,21 @@
 \date{Jan, 2017}
 
 \begin{document}
+\input{sections/title_page.tex}
 \input{sections/analysis.tex}
 \input{sections/embedded_platform.tex}
 \input{sections/carrier_card_design.tex}
+\input{sections/carrier_card_test.tex}
+\input{sections/conclusion.tex}
+ 	
+\clearpage
 \input{bib.tex}
+\newpage
+\appendix
+\input{sections/appendix.tex}
 
 \end{document}
+
+
+
+

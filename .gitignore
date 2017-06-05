@@ -18,6 +18,10 @@ main.pdf
 *.glsdefs
 *.ist
 *.lot
+*.dpth
+*.md5
+*.auxlock
+*.pdf
 OD.tex
 
 #sublime

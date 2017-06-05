@@ -1,0 +1,13 @@
+-XADC, Numerous pins can be rerouted to the adc's on bank 0, see UG480, chap. 1.
+-Anti-Aliasing filter, place close to BERGSTAK header, UG480 p. 80, add note on sampling frequency equation.
+-Pinout from zynq to carrier card, see pinout tables in pinout.xlsx
+-Determine footprint size of resistors
+-The microphone connector is routed to the headers and the headers can be used as IO if the microphone board is not present.
+-The calculation of the resistor size for leds and buzzer taking into account the choice of mosfet (on region characteristics)
+-Choice of components for the dc/dc converter
+-JP2 left out due to static 3.3V to across IO banks
+-Due to 9V off signal, note that the charging of the caps is twice as fast
+-VCCIO_EN becomes 1.8, even when vcc is connected directly, also - this is for debugging purposes.
+-Document power-up and power-down sequence
+-Add-in buzzer board for added flexibility
+-Width of traces
