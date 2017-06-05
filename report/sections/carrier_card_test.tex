@@ -43,7 +43,7 @@ The converter providing \texttt{VCCIO} should be enabled by \texttt{VCCIO\_EN}.
 By inspecting figure \ref{fig:startup_swarm} it is verified that when \texttt{VCCIO\_EN} is high the converter providing \texttt{VCCIO} is enabled and  \texttt{VCCIO} rises towards its final level of 3.3V.
 It is also verified that \texttt{2V5REF} reaches its expected voltage level of 2.5V.
 
-\begin{figure}[h]
+\begin{figure}[H]
 \centering
 \begin{subfigure}[t]{.45\textwidth}
   \centering
@@ -69,7 +69,7 @@ Then the signals \texttt{VCCIO\_EN}, \texttt{POWER\_EN} and \texttt{DCDC\_EN} sh
 Figure \ref{fig:shutdown} shows that to be true.
 
 
-\begin{figure}[h]
+\begin{figure}[H]
 	\centering
     \input{graphics/shutdown_graph.tex}
 	\caption{Measured signals on the Swarm carrier card at shutdown.}
@@ -81,7 +81,7 @@ The bouncing could be removed by designing and inferring a low pass filter to th
 This, however, adds additional cost and complexity to the board.
 Until deemed necessary, this will not be explored futher.
 
-\begin{figure}[h]
+\begin{figure}[H]
 	\centering
     \input{graphics/shutdown_w_noise_graph.tex}
 	\caption{Measured signals on the Swarm carrier card at shutdown. Full sequence is shown.}
