@@ -13,26 +13,22 @@ A carrier card  needs to provide the following voltages for the MicroZed:
 	\item $V_{ccio,35}$ (Voltage logic level for I/O bank 35)
 \end{itemize}
 The different I/0 banks can be operated at different voltage levels.
-According to \cite{zynq_dc}, the possibly logic levels are 1.2V, 1.5V, 1.8V, 2.5V, and 3.3V.
+According to \cite{zynq_dc}, the possible logic levels are 1.2V, 1.5V, 1.8V, 2.5V, and 3.3V.
 
 It was chosen to supply all I/O banks with a voltage level of 3.3V as the vast majority of hardware used is available at this voltage.
 Additionally, it simplifies both the circuitry, as well as the use of the board.
 
 $$ V_{ccio} =  V_{ccio,13} = V_{ccio,34} = V_{ccio,35} = 3.3V$$
 
-The generation of the 3.3V rail is defined in \cite{carrier_schematic} and will be discussed in more detail in section \ref{sec:33v}.
+The schematic and components used for the generation of the 3.3V rail is available in \cite{carrier_schematic} and \thomas{insert link to github schematic pdf} and will not be discussed further as this is not the design of the authors.
 Since the swarmbot is designed to be powered from a 7.4V LiPo battery, the 5V rail has to be generated from this rail.
 As the voltage of a battery is not static, the converter will have to be able to supply the required voltage throughout the entire discharge cycle.
-\thomas{Is the battery mentioned?}
-\thomas{Add figure on discharge curve.}
 In order to determine the maximum and minimum voltages of the battery, a discharge curve was created.
-More detail on the test done to create the curve can be found in section \ref{sec:discharge_curve}, but the result is repeated in figure \ref{fig:discharge_repeat} for convenience.
-Here it can be seen that the maximum voltage once fully charged is 8.4V while the minimum voltage when discharged fully is 5.5V.
-Attempting to procure a DC/DC converter capable of maintaining a stable 5V output with an input voltage of just 0.5V higher may prove to be an expensive endevour.
+More detail on the test done to create the curve can be found in section \ref{sub:discharge_curve_of_the_ansmann_2s1p}, but the result is repeated in figure \ref{fig:discharge_repeat} for convenience.
+Here it can be seen that the maximum voltage once fully charged is 8.4V while the minimum voltage when discharged fully is approximately 5.5V, as per the documentation of the battery \cite{battery}.
+Attempting to procure a DC/DC converter capable of maintaining a stable 5V output with an input voltage of just 0.5V higher may prove to be an expensive endeavour.
 The curve reveals that the voltage remains above 6V for $\approx$85\% of the discharge cycle, even when discharging at 4A, far above what the carrier card will be capable of handling.
 For this reason, this will be the target minimum input voltage of the DC/DC converter.
-
-\thomas{Check min and max voltages fit discharge curve.}
 \begin{figure}
 	\centering
 	\input{graphics/discharge.tex}
@@ -58,13 +54,13 @@ Below is a discussion of the various choices made in the design of the circuitry
 The PTH08080WAH \cite{pth08080} closely meets these requirements at a maximum power delivery of 2A/10W/5V.
 The device is designed to have a wide input range, accepting \texttt{Vin}=\texttt{Vo}+1.1V to 18V.
 At the required 5V this translates to an input range of 6.1V to 18V.
-This is of course slightly higher than the desired 6V, but even at the maximum discharge rate, estimated at 2.2A-2.3A, with the MicroZed drawing its maximum current and the motors running at full speed, there would still be approximately \thomas{some amount of minutes/hours} minutes of operation per charge.
+This is of course slightly higher than the desired 6V, but even at the maximum discharge rate, estimated at 2.2A-2.3A, with the MicroZed drawing its maximum current and the motors running at full speed, there would still be approximately 70 minutes of operation per charge.
 \texttt{Vo} is determined via an external resistor \texttt{Rset}.
 A formulae is provided to calculate the exact \texttt{Rset} needed for a given voltage, however a large table of common values is already calculated.
-According to this table, \texttt{Rset}=353$\omega$ results in 5V.
-353$\omega$ is not a standard value, choosing 348$\omega$ instead yields 5.01V, which is fine for this application.
+According to this table, \texttt{Rset}=353$\Omega$ results in 5V.
+353$\Omega$ is not a standard value, choosing 348$\Omega$ instead yields 5.01V, which is fine for this application.
 \\~\\
-The circuit appertaining to this component can be seen in figure \ref{fig:dcdccomponent}.
+The circuit appertaining to this component can be seen in figure \ref{fig:pth08080}.
 This is the standard application circuit as shown in the datasheet (figure 10 \cite{pth08080}).
 According to the datasheet, the minimum recommended input capacitance is 100$\mu$F. 
 Of the capacitors on the list of recommended capacitors, also given in the datasheet, the 20SVP150M was chosen.
@@ -77,9 +73,10 @@ It is rated for 20V, sufficient for this application, and has a capacitance of 1
 	\label{fig:pth08080}
 \end{figure}
 
-\subsection{Power Up Sequence}
+\subsection{Power Up Sequence} % (fold)
+\label{sub:power_up_sequence}
 According the carrier card design guide, \cite{design_carrier}, a carrier card needs to adhere to a specific power up sequence in order for the MicroZed to turn on correctly.
-On power up MicroZeds \texttt{PWR\_EN} signals needs to be pulled high on the carrier card, to enable power to the MicroZed.
+On power up, MicroZeds \texttt{PWR\_EN} signals need to be pulled high on the carrier card, to enable power to the MicroZed.
 This is done with a pull-up resistor as shown in figure \ref{fig:pwr_en_circuit}.
 
 \begin{figure}[h]
@@ -90,7 +87,7 @@ This is done with a pull-up resistor as shown in figure \ref{fig:pwr_en_circuit}
 \end{figure}
 
 When the MicroZed has powered up its internal DC/DC converters and is ready to receive voltage on its I/O banks \texttt{VCCIO\_EN} will go high.
-\texttt{VCCIO\_EN} has a logic level of 1.8 [V] and the signal is therefore fed to a comparator that outputs a 5 [V] signal to a DC/DC converter when \texttt{VCCIO\_EN} is high.
+\texttt{VCCIO\_EN} has a logic level of 1.8V and the signal is therefore fed to a comparator that outputs a 5V signal to a DC/DC converter when \texttt{VCCIO\_EN} is high.
 The DC/DC converter is configured to produce a voltage level of 3.3V that is connected to \texttt{VCCIO}.
 This circuitry can be seen in figure \ref{fig:pwr_io_circuit}.
 
@@ -101,14 +98,16 @@ This circuitry can be seen in figure \ref{fig:pwr_io_circuit}.
 	\label{fig:pwr_io_circuit}
 \end{figure}
 
-\subsection{Power Down Sequence}
-A power down sequence is also described in \cite{design_carrier}, that needs to be followed to ensure signal integrity. 
+% subsection power_up_sequence (end)
+\subsection{Power Down Sequence} % (fold)
+\label{sub:power_down_sequence}
+A power down sequence is also described in \cite{design_carrier}, that needs to be followed to ensure signal integrity while powering down. 
 The signals \texttt{VCCIO\_EN}, \texttt{DCDC\_EN} and \texttt{PWR\_EN} should be pulled down in that order when powering off.
 The signals are pulled down by mosfets controlled by the \texttt{V\_OFF} signal.
 When the power switch on the carrier card is in off mode, the battery voltage is connected to the \texttt{V\_OFF} rail thereby turning the mosfets on and pulling the signals down. 
 The correct sequence is maintained by charging capacitors on the gate side of the mosfets thereby creating a delay.
 Such a mosfet circuit is shown in figure \ref{fig:pwr_en_circuit}.
-
+% subsection power_down_sequence (end)
 \subsection{Analog to Digital Converter} % (fold)
 \label{sub:analog_to_digital_converter}
 The Zynq 7-series FPGA's are equipped with a dual, 12 bit ADC, yet has only one dedicated analog differential pair, \texttt{VP\_0} and \texttt{VN\_0}.
@@ -146,10 +145,10 @@ Resistors \texttt{R3}, \texttt{R4} and the capacitor \texttt{C1} can be adjusted
 	\caption{Anti-Aliasing diagram from Xilinx ADC userguide \cite{adc}.}
 	\label{fig:anti_a}
 \end{figure}
-
+\thomas{This is where i gave up}
 % subsection analog_to_digital_converter (end)
 \subsection{Buzzer Solution}	
-As described in section \ref{sub:click_generator} it was found that the best solution for creating a click noise on the platform was to use a piezo speaker with a drive circuit and a \texttt{PWM} signal.
+As described in section \ref{sub:click_generator} it was found that the best solution for creating a clicking noise on the platform was to use a piezo speaker with a drive circuit and a \texttt{PWM} signal.
 But because there has been made no further investigation into what sound level is needed and what the frequency spectrum of the generated click is, it was decided to leave the circuitry out of the carrier card.
 Furthermore the sound source should be placed in the center of the robot to ease localization of the robot, but the design of the carrier card did not allow this.
 Therefore it was decided to include a header providing access to two IO ports, ground and \texttt{VBATT}.
@@ -169,7 +168,7 @@ Two holes were added to the carrier card to allow for fixture of the external pi
 
 \subsection{Choice of Components}
 As mentioned, the choice of components is largely based upon the Avnet carrier card.
-Generally the same components were chosen, but because of pricing, availability or ordering batch size similar components were chosen instead.
+Generally the same components were chosen but due pricing, availability or minimum order size, some components were changed to similar ones.
 Table \ref{tab:components1} and \ref{tab:components2} in appendix \ref{app:components} explains what components were chosen and why.
 
 \subsection{Swarmbot Carrier Card Layout} % (fold)
@@ -182,14 +181,14 @@ The former, a simpler layout process, is expected for a number of reasons outlin
   	Creating a 4-layer board means that the two middle layers can be \texttt{GND} and \texttt{VCC}, allowing every connection to either of these plains to be done using a simple via.
   	\item \textbf{Feature Size:} The manufacturing method used at SDU is not reliable at tracewidths below 20mil and all vias must be drilled by hand, resulting in signal traces being far wider than what is actually required.
   	The manufacturer used to produce the swarmbot carrier card \cite{itead} allows traces as low as 8mil and vias at 12mil.
-  	\item \textbf{Plated Vias:} The vias created by the manufacturer are plated with copper, meaning that, when using throughhole components the trace can be routed on both the top and bottom layers.
+  	\item \textbf{Plated Vias:} The vias created by the manufacturer are plated with copper, meaning that, when using throughhole components the trace can be routed on both the top and bottom layers, without the use of additional vias.
   	This greatly reduces the number of vias required for the layout.
   \end{itemize}
 Finally, as was alluded to in the previous paragraphs, the manufacturing process at SDU is not particularly robust and often requires several attempts before the correct combination of incantations, candles and luck is found and a fully functional board is created.
 \\~\\
 The board has three trace widths: 40mil for \texttt{VBATT}, 20mil for \texttt{VCCIO} and 8mil for the remaining signal wires.
 Mostly, the size of the board is due to the number of connectors that are required.
-For this reason there is plenty of room for components and generally capacitors and resistors were chosen with an 0805 footprint.
+For this reason there is plenty of room for components and generally capacitors and resistors were chosen with a 0805 footprint.
 The anti-aliasing filters described in section \ref{sub:analog_to_digital_converter} are required to be placed close to the Bergstak connectors (the connector for mounting the MicroZed), which has a 0.8mm pitch.
-Using 0805 components here is infeasible due to size constraints and it was decided to use 0402 instead.
+Using 0805 components here is infeasible due to size and it was decided to use 0402 instead.
 % subsection swarmbot_carrier_card_layout (end)

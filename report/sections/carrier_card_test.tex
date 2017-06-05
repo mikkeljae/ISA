@@ -10,37 +10,38 @@ After soldering of all the components it was found by measurement that the board
 The debugging of the board will be described in this section.
 
 The carriercard is designed to allow for measurement of the voltage-rails on the powerheader, \texttt{P1}, without connecting the MicroZed.
-Specifically the J1 jumper should be present to simulate the \texttt{VCCIO\_EN} signal from the MicroZed.
-All voltages on the powerheader were measured by an oscilloscope whilst toggling the power switch.
-\texttt{VCC} should switch between 0 [V] and 5 [V], which it was not, leading to the conclusion that the circuitry handling the enable signal, \texttt{DCDC\_EN}, to the \texttt{REG1} DC/DC converter could be faulty.
-By inspection, it was found that the footprint of the mosfets \texttt{Q1},\texttt{Q2} and \texttt{Q3} were wrong.
-Rotating the components fixed the problem and the power switch now toggled both the \texttt{VCC} rail and the 2.5 [V] rail on and off.
+Specifically the \texttt{J1} jumper should be present to simulate the \texttt{VCCIO\_EN} signal from the MicroZed.
+All voltages on the powerheader were measured with an oscilloscope whilst toggling the power switch.
+\texttt{VCC} should switch between 0V and 5V, which it was not, leading to the conclusion that the circuitry handling the enable signal, \texttt{DC/DC\_EN}, to the \texttt{REG1} DC/DC converter could be faulty.
+By inspection, it was found that the footprint of the mosfets \texttt{Q1},\texttt{Q2} and \texttt{Q3} was wrong.
+A temporary fix was done by rotating the components, soldering them in place using signal wires. 
+The power switch now toggled both the \texttt{VCC} rail and the 2.5V rail on and off.
 
-Measurements of \texttt{VCCIO} during powerup showed that it immediately went to approximately 3.3 [V], but then discharged slowly towards zero voltage.
+Measurements of \texttt{VCCIO} during powerup showed that it immediately went to approximately 3.3V, but then discharged slowly towards zero voltage.
 The enable signal, \texttt{VADJ\_EN}, was low even though the input voltages were measured to be as expected.
 This lead to a thorough examination of the component and the schematic and it was found that the input signals should be switches.
 The input signals were switched, which fixed the issue and made the \texttt{VCCIO} voltage follow the position of the powerswitch.
 
-Measuring the voltage level of \texttt{VCCIO} showed it to be 3.4 [V] rather than the expected 3.3 [V].
-This was due to placing a 47 [k$\Omega$] resistor as \texttt{R4} instead of a 45.3 [k$\Omega$] as specified in the schematics.
-The 47 [k$\Omega$] resistor was paralleled with a 1.5 [M$\Omega$] resistor to yield a resistance of 45.6 [k$\Omega$] and a voltage of 3.33 V.
+Measuring the voltage level of \texttt{VCCIO} showed it to be 3.4V rather than the expected 3.3V.
+This was due to placing a 47k$\Omega$ resistor as \texttt{R4} instead of a 45.3k$\Omega$ as specified in the schematics.
+Even though 3.4V is within spec, it was decided to parallel the 47k$\Omega$ resistor was with a 1.5M$\Omega$ resistor to yield a resistance of 45.6k$\Omega$ and a voltage of 3.33V.
 
 \subsection{Carrier Card Power Sequencing}
-As described in section \ref{sub:microzed_carrier_card} the carrier card is designed to provide a specific power sequence on startup and shutdown.
+As described in sections \ref{sub:power_up_sequence} and \ref{sub:power_down_sequence} the carrier card is designed to provide a specific power sequence on startup and shutdown.
 
 \subsubsection*{Startup}
-To verify the proper startup power sequence of the Swarm carrier the signals \texttt{VCC}, \texttt{2V5REF}, \texttt{VCCIO\_EN} and \texttt{VCCIO} were measured and plotted in figure \ref{fig:startup_swarm}.
+To verify the proper startup power sequence of the Swarmbot carrier card the signals \texttt{VCC}, \texttt{2V5REF}, \texttt{VCCIO\_EN} and \texttt{VCCIO} were measured and plotted in figure \ref{fig:startup_swarm}.
 \cite{design_carrier} dictates that POWER\_EN signal must be pulled high on powerup, which was measured to be true.
 \texttt{VCCIO\_EN} is produced by the MicroZed and is plotted in figure \ref{fig:startup_swarm}. 
-It can be seen that \texttt{VCCIO\_EN} rises to its logical level, 1.8 [V], then goes low for a while and hereafter goes high, which is not the expected behavior.
-To determine if this behavior was caused by an issue on the Swarm carrier the value of \texttt{VCCIO\_EN} on the AVNET carrier was measured at startup when connecting the MicroZed to the AVNET carrier card.
+It can be seen that \texttt{VCCIO\_EN} rises to its logical level, 1.8V, then goes low for a while and hereafter goes high, which is not the expected behavior.
+To determine if this behavior was caused by an issue on the Swarmbot carrier card the value of \texttt{VCCIO\_EN} on the AVNET carrier was measured at startup when connecting the MicroZed to the AVNET carrier card.
 The two measurements of \texttt{VCCIO\_EN} at startup is plotted in figure \ref{fig:startup_vccioen}.
-It is seen that the two datasets are nearly identical concluding that the Swarm and AVNET carrier card yields the same behavior.
+It can be seen that the two datasets are nearly identical concluding that the Swarm and AVNET carrier card yields the same behavior.
 As \texttt{VCCIO\_EN} has the same behavior when connecting the MicroZed to the AVNET carrier it is believed to be non problematic.
 
 The converter providing \texttt{VCCIO} should be enabled by \texttt{VCCIO\_EN}.
-By inspecting figure \ref{fig:startup_swarm} it is verified that when \texttt{VCCIO\_EN} is high the converter providing \texttt{VCCIO} is enabled and  \texttt{VCCIO} rises towards its final level of 3.3 [V].
-It is also verified that \texttt{2V5REF} reaches its expected voltage level of 2.5 [V].
+By inspecting figure \ref{fig:startup_swarm} it is verified that when \texttt{VCCIO\_EN} is high the converter providing \texttt{VCCIO} is enabled and  \texttt{VCCIO} rises towards its final level of 3.3V.
+It is also verified that \texttt{2V5REF} reaches its expected voltage level of 2.5V.
 
 \begin{figure}[h]
 \centering
@@ -77,6 +78,8 @@ Figure \ref{fig:shutdown} shows that to be true.
 It should be noted that figure \ref{fig:shutdown} only shows the first few microseconds after toggling the power switch.
 In figure \ref{fig:shutdown_bounce} the first millisecond is shown and it can be seen that the switch creates quite a lot of bouncing on \texttt{V\_OFF}.
 The bouncing could be removed by designing and inferring a low pass filter to the circuit, possibly with a Schmitt trigger circuit to generate a clean edge.
+This, however, adds additional cost and complexity to the board.
+Until deemed necessary, this will not be explored futher.
 
 \begin{figure}[h]
 	\centering
@@ -93,35 +96,34 @@ This charger is capable of charging a variety of batteries, following the specif
 As is expected from a 2-cell Li-Ion battery, the no-load voltage once fully charged is $\approx$8.4V.
 After charging, the battery is connected using a DC Electronic Load (model number: EA-EL 3160-60).
 The load is set at constant current mode and the current set.
-The battery is equipped with undervoltage protection that turns off the output once the voltage dips below 5V, in spite of this, it was decided to calculate the theoretical duration and run the test for that amount of time.
+The battery is equipped with undervoltage protection that turns off the output once the voltage dips below 5-5.5V, in spite of this, it was decided to calculate the theoretical duration and run the test for that amount of time.
 At 2600mAh it will take $2600\text{mAh}/4000\text{mA}=0.65h$ or, in human terms, 39 minutes, to discharge the battery.
 For the sake of completion, the trial is repeated for 4, 3, 2 and 1A.
 The result can be seen in figure \ref{fig:discharge}.
 As discussed in sections \ref{sec:power_dissipation} and \ref{sub:power_req}, the maximum current draw of the platform at the battery is approximately 2.2A.
 Although it should be noted that this is a theoretical maximum and that it is unlikely that this will actually be reached.
+\\~\\
 As with any battery, due to the internal resistance of the battery the voltage seen at the terminals depends heavily on the current being drawn.
 The platform will remain functional so long as the voltage remains above 6.1V, the minimum voltage required to maintain \texttt{VCC}, the rail supplying the MicroZed.
-The speed of the motors will however decline as the battery discharges.
-From table \ref{tab:discharge} it can be seen that discharging at 2A will give 4320 seconds or 72 minutes of use.
+The maximum speed of the motors will however decline as the battery discharges.
+From table \ref{tab:discharge} it can be seen that discharging at 2A will give 4200 seconds or 70 minutes of use.
 Note that the graphs were acquired using two batteries in order to shorten the time required to finish the test.
-This may have a marginal impact on the results, but is assumed to be irrelevant.
+This may have a marginal impact on the results, but is assumed to be irrelevant. 
 
-\begin{table}[h]
+\begin{table}[H]
   \centering
   \begin{tabular}{|r|c|c|c|c|}
     \hline
     Current [A] & 4 & 3 & 2 & 1 \\
     \hline
-    Time [S] & 2340 & 3060 & 4320 &  \\
-    \hline
-    Voltage[V] & 5.326 & 5.294 & 5.562 &\\
+    Time [S] & 1740 & 2820 & 4200 &  8640\\
     \hline
   \end{tabular}
-  \caption{Table showing the discharge current, the time to discharge the battery fully and the last measured voltage before the undervoltage protection activates.}
+  \caption{Table showing the discharge current and the time before the cutout voltage of the DC/DC converter is reached.}
   \label{tab:discharge}
-\end{table}h
+\end{table}
 
-\begin{figure}[h]
+\begin{figure}[H]
   \centering
   \input{graphics/discharge.tex}
   \caption{Discharge curve of the Ansmann 18650 2S1P Li-Ion battery used to power the swarmbot.}
@@ -132,14 +134,17 @@ This may have a marginal impact on the results, but is assumed to be irrelevant.
 
 \subsubsection*{IO ports}
 To ensure the functionality of the IO ports and the MicroZed in general two tests were performed.
-In the first test a VHDL program was written to turn on a LED connected to a IO port. 
-It worked, which led to the conclusion that the PL part of the MicroZed and the IO port worked properly.
+In the first test a VHDL program was written to turn on an LED connected to an IO port. 
+The test was successful, which led to the conclusion that the PL part of the MicroZed and the IO port are in working order.
 
-In the next test a C program was written to make a LED blink.
-This test also succeeded, which led to the conclusion that both the PS and PL part of the MicroZed worked properly.
+In the next test a C program was written to make an LED blink.
+This test also succeeded, which led to the conclusion that both the PS and PL part of the MicroZed are functioning properly.
 
 \subsubsection*{Conclusion}
 The problems on the carrier card were found and fixed through systematic debugging.
-The carrier card has the wanted powerup and powerdown sequence which was measured using an oscilloscope. 
-On shutdown the power switch introduces bouncing on the \texttt{V\_OFF} signal which could be filtered away by a low pass filter.
+The carrier card has the wanted powerup and powerdown sequence which was measured using an oscilloscope.
+Bouncing was seen by the power switch on shutdown.
+A low pass filter and a schmitt trigger was suggested to alleviate this issue, but it was decided not to implement the solution.
+A small experiment was conducted in order to get some data on the discharge behaviour of the batteries.
+This experiment revealed that the platform is likely to see at least 70 minutes of use, possibly more.
 The PS, PL and IO functionalities of the MicroZed when connected to the carrier were verified through tests.

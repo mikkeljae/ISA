@@ -36,17 +36,17 @@ Previously, it was attempted to generate a click using a piezo transducer.
 The attempt did not manage to produce a sufficiently loud click.
 A piezo transducer deforms when a voltage is applied to it.
 A higher voltage increases the deformation.
-By repeatedly pulsing the transducer with a sufficiently high voltage, it should be possible to generate a clicking noise.
+By repeatedly pulsing the transducer with a sufficiently high voltage, it should be possible to generate a sound.
 Some type of circuit will have to be used to generate the necessary voltage spike.
 
 The sound of a Piezo transducer is amplified when placed in a plastic housing with a small hole to let the soundwaves out.
 This housing and the size of the hole should be designed to amplify the specific piezo transducer's resonant freqency.
-Designing such a housing is unfeasable, considering how cheaply a finished product can be procured.
+Designing such a housing is infeasable, considering how cheaply a finished product can be procured.
 A piezo element is generally designed to generate sound with a specific frequency.
 This can be seen by inspection of the frequency response curve of a piezo transducer.
 A depiction of a typical response curve can be seen in figure \ref{fig:piezo_response}
 
-\begin{figure}
+\begin{figure}[H]
 	\centering
 	\includegraphics[width=.5\linewidth]{graphics/piezo_response.png}
 	\caption{Typical frequency response of a piezo electric transducer. This particular model is most effective at approximately 5kHz and 18kHz.}
@@ -151,34 +151,33 @@ The board must support a number of components and circuits, listed below.
 \subsection{Power Calculations} % (fold)
 \label{sub:power_calculations}
 In the previous project it was chosen to use linear regulators to supply the 5 and 3.3V rails.
-This project will analyse whether the added cost of using switch-mode converters is worth the additional cost.
-It will be analyzed how much power is drawn from the 5 [V] and battery voltage rail.
-It has been found that the DCDC converter, \texttt{pth08080w}, is suitable for this project and this components specifications will be used for calculations. 
-Furthermore it will be calculated how much more drive time using a DCDC converter will give and if it is worth the added cost. 
+This project will analyse whether the added cost of using switch-mode converters is worthwile considering the possible extra battery life.
+It will be analyzed how much power is drawn from the 5V- and battery voltage-rails and what the expected additional battery life will be when using a switch-mode converter.
+It has been found that the DC/DC converter, \texttt{pth08080w}, is suitable for this project and this component's specifications will be used for calculations. 
 
-\subsubsection*{5 [V] Rail} % (fold)
+\subsubsection*{5V Rail (VCC)} % (fold)
 
 % subsection subsection_name (end)
-The following are powered at the 5[V] rail:
+The following are powered by VCC:
 \begin{itemize}
-	\item Microphones including circuitry, $11$[mA]
-	\item Zynqbased embedded platform, $500$[mA]
-	\item Two motorcontrollers, $5$[mA]
-	\item Six LEDs, $120$[mA]
+	\item Microphones including circuitry, $11$mA
+	\item Zynqbased embedded platform, $500$mA
+	\item Two motorcontrollers, $5$mA
+	\item Six LEDs, $120$mA
 \end{itemize}
 The current estimation of the microphones, motorcontrollers and LEDs are based upon datasheet values. 
-Whereas the current estimation for the Zynqbased platform is based upon previous projects current measurements. 
-The current drawn by the Zynq is obviously dependent on the program running, which is not known.
-500 [mA] is by no means the maximum current draw that can be expected from a Zynqbased platform, as the MicroZed draws 1.7 [A] at 85\% utilization \cite{microzed_hardware_guide}.
+Whereas the current estimation for the Zynqbased platform is based upon current measurements from a previous project.
+The current drawn of the Zynq is obviously dependent on the program running, the amount of logic in use, the number of GPIO in use and so on. All of these are unknown at time of writing.
+500mA is by no means the maximum current draw that can be expected from a Zynqbased platform, as the MicroZed draws 1.7A at 85\% utilization \cite{microzed_hardware_guide}.
 
-The total 5 [V] rail current estimation results in a total of $636$ [mA].
+These estimates bring the total current draw of the VCC rail to $636$mA
 
-\subsubsection*{Battery Voltage Rail} % (fold)
+\subsubsection*{Battery Voltage Rail (VBATT)} % (fold)
 
-The motors will be running directly off the battery rail.
+The motors will be running directly from VBATT.
 To measure the current drawn by the motors and motorcontrollers a small test was conducted.
-Three different voltages were applied to the motors using a power supply. 
-Voltage and current measurements were made while the robot drove. 
+Three different voltages were applied to the motors using a laboratory power supply. 
+Voltage and current measurements were made with the robot driving. 
 The results are shown in table \ref{tab:motor_power}.
 
 \begin{table}[h]
@@ -194,25 +193,25 @@ High        & 8  & 350 & 2.8 \\ \hline
 \end{tabular}
 \end{table}
 
-The piezo speaker is also be powered by the battery voltage rail, but it uses no significant power as a piezo does not use a lot of power and it is only producing sounds for a few milliseconds each second. 
-Therefore its current draw is left out.
+The piezo speaker is powered by VBATT as well, but it produces sound only for a few milliseconds at a time and in addition, with a very power.
+For this reason, this current draw is neglected throughout the remainder of the discussion.
 
 \subsubsection*{Power Dissipation} % (fold)
 \label{sec:power_dissipation}
 When using a linear voltage regulator the power dissipated in the component can be calculated using:
 $$P_{LR} = (V_{in} - V_{out}) \cdot I_{load}$$
 
-The power dissipation in the linear regulalator can be found using the current estimation at 5[V] and the fact that the battery has a nominal voltage of 7.4 [V]:
+The power dissipation in the linear regulalator can be found using the current estimation at 5V and the fact that the battery has a nominal voltage of 7.4V:
 $$P_{LR} = (7.4 [V] - 5.0 [V]) \cdot 0.636 [A] = 1.5 [W]$$
 
 If a switching regulator is used the voltage conversion will have a significantly higher efficiency.
-The \texttt{pth08080w} has a typical efficiency of $93.5\%$ at 5 [V] \cite{pth08080}.
-The power dissipated in the DCDC converter would be:
+The \texttt{pth08080w} has a typical efficiency of $93.5\%$ at 5V \cite{pth08080}.
+The power dissipated in the DC/DC converter would be:
 $$P_{SW} = V_{in} \cdot I_{load} \cdot (1 - \eta) $$
 $$P_{SW} = 7.4 [V] \cdot 0.636 [A] \cdot 0.065 = 0.3 [W]$$
 
 
-The total power drawn at the 5 [V] rail is:
+The total power drawn at the 5V rail is:
 $$P_{5V} = 0.636 [A] \cdot 5 [V] = 3.2 [W]$$
 
 Based on the measurements of voltages and currents of the motors and motorcontrollers, the power dissipated were calculated to be as in table \ref{tab:motor_power}.
@@ -220,18 +219,18 @@ The total power usage can be calculated as the sum of the combined powers.
 $$P_{T} = P_{reg} + P_{motor} + P_{5V}$$ 
 Calculating the total power usage at low velocity and using a linear regulator yields:
 $$P_{T,LR} = 1.5 + 0.2 + 3.2 = 4.9 [W]$$ 
-The total power at the three velocities is calculated using a linear regulator or a DCDC converter and is shown in table \ref{tab:drive_time}. 
+The total power at the three velocities is calculated using a linear regulator or a DC/DC converter and is shown in table \ref{tab:drive_time}. 
 
 \subsubsection*{Drive Time}
 The amount of energy the battery can store should be calculated in order to calculate the drive time of the robot.
-The batteries have a capacity of $2600$ [mAH] \cite{battery}.
+The batteries have a rated capacity of $2600$mAH \cite{battery}.
 Converted to Joule: 
 $$ E_{bat} = 2.6 [AH] \cdot 7.4 [V]  \cdot 3600 = 69.3 [kJ]$$
 The drive time can then be calculated: 
 $$ T = \frac{E_{bat}}{P_T} $$
 Specifically for low velocity and using a linear regulator:
 $$ T_{LR} = \frac{E_{bat}}{P_{T,LR}} = \frac{69.3 [kJ]}{4.9 [W]} = 14143 [s] $$
-Which corresponds to 3.9 [h]. The calculation is done for all scenarios and the results are shown in table \ref{tab:drive_time}.
+Which corresponds to 3.9h. The calculation is done for all scenarios and the results are shown in table \ref{tab:drive_time}.
 Finally the extra drive time obtained by using a switching regulator rather than a linear regulator is calculated and shown in percent in table \ref{tab:drive_time}.
 
 \begin{table}[h]
@@ -249,5 +248,8 @@ Finally the extra drive time obtained by using a switching regulator rather than
 
 Using a switching regulator yields a minimum of 19\% more drive time compared to using a linear regulator.
 On the basis of the results it is concluded that using a switching regulator is worth the additional cost.
+
+Note that these results are very conservative estimates.
+The more power is being drawn from VCC, the more the benefits if the switch-mode converter would show. 
 % subsection power_calculations (end)
 % section analysis (end)
