@@ -162,7 +162,23 @@ Two holes were added to the carrier card to allow for fixture of the external pi
 \end{figure}
 
 \subsection{Pinout}
+The complete pinout can be found at \cite{pinout} but a few cases are mentioned here for completeness.
+Some pins on the GPIO headers, (\texttt{CON5, CON6}) are routed to multiple locations, this increases the amount of available IO, but also introduces some possible traps for the user.
+Below is a list outlining the pins in question.
 
+\begin{itemize}
+	\item \texttt{MIC\_*:} All of the ports related to the microphone board are routed both to the microphone header, \texttt{CON3}, and one of the GPIO headers, \texttt{CON5}.
+	These ports should not be used as IO if the microphone board is connected.
+	\item \texttt{ENCxy:} These ports are wired to both the \texttt{CON1} or \texttt{CON2} for channel 0 and 1 respectively, and \texttt{CON6}.
+	The connection to the GPIO header is for measurement only.
+	\item \texttt{Mx\_PWMy:} These ports are wired directly to the motor controller and should not be used as IO.
+	The connection to the GPIO header, \texttt{CON6} is for measurement only.
+	\item \texttt{BUZ\_PWMx:} These signals are wired to the audio header, \texttt{P4}, and to one of the GPIO headers, \texttt{CON6}.
+	These ports should not be used as IO if a buzzer is connected. 
+\end{itemize}
+
+In addition to these signals it should be noted that the four signals marked \texttt{JXx\_TPyy} are meant as test signals.
+They are GPIO ports but are placed on a seperate header to allow for easier access with measurement equipment.
 
 \subsection{Choice of Components}
 As mentioned, the choice of components is largely based upon the Avnet carrier card.

@@ -2,23 +2,25 @@
 \section{Conclusion}
 This project develops on the work done in the bachelor thesis ``Investigating Bio-inspired Object Avoidance in a Swarm of Mobile Robots'' with the main goal of replacing the Raspberry Pi with a Zynq based platform.
 It was decided to keep the mechanical platform, battery, motors, motor drivers.
-Fuses were excluded as battery "safety boards" and software eliminates the need for these.
-Tests were made to find the sound producer best suited for making a click noise on the platform.
-It was found that a piezo speaker is the best choice, but it was not included on the board to allow for further testing, before taking the final decision.
+Fuses were excluded as the batteries include a "safety boards" and software can be used to protect the motors.
+Tests were made to find the sound producer best suited for making a clicking noise on the platform.
+It was found that a piezo speaker is the best choice, but it was not included on the board to allow for further testing, before making the final decision.
 A switch-mode DC/DC converter is included as tests and calculations showed that a minimum of 19\% extra drive time is gained when using this component instead of a linear voltage regulator.
 It was decided to use the MicroZed Zynq platform rather the Zynqberry or the Zybo.
-The MicroZed was chosen as it has enough I/O pins, has a solid documentation and it is within the confines of the robot platform.
+The MicroZed was chosen as it has plenty of I/O pins, has a solid documentation and it is within the confines of the robot platform.
 When using the MicroZed a carrier card is needed to power the I/O banks and give access to I/O pins.
-
+\\~\\
 It was decided to design such a carrier card and include all electronic for the project on it. 
-The PTH08080WAH converter was chosen and test showed that 70 minutes of use can be expected from the robot.
+The PTH08080WAH converter was chosen and test showed that at least 70 minutes of use can be expected from the robot.
 It was chosen to supply all I/O banks with 3.3V and circuits were designed to ensure correct power up and power down sequences. 
 Four pairs of anti-aliasing filters were added to enable use of the on-chip ADCs. 
 The carrier card layout was done using Altium Designer and it was decided to have the board manufactured by a professional outlet to allow for a multilayer board, small feature size and plated vias.
-
+\\~\\
 After receiving and soldering the designed carrier cards, it was found that the board was not functioning correctly.
-Thorough physical debugging and fixing of errors led to a correct functioning board. 
-Correct power up and power down sequences were verified measuring voltages on the power header using an oscilloscope. 
+Thorough physical debugging and fixing of errors led to a correctly functioning board. 
+Correct power up and power down sequences were verified by measuring voltages on the included power header. 
 Verification of main features of the board, such as I/O pins, was made by performing small "Hello World" style programs in \texttt{C} and \texttt{VHDL}.
-
-In hindsight, it is clear to the authors that the decision to develop a MicroZed carrier card resulted in many hours being spent on this, rather than developing a robot, but it led to a very valuable exercise in development of professional layout of PCB. 
+\\~\\
+In hindsight, it is clear to the authors that the decision to develop a MicroZed carrier card resulted in many hours being spent on this, rather than developing a robot, but it led to a very valuable exercise in the development of a professional layout of PCB and, hopefully¸ the beginning of a platform that can be used by future students.
+\\~\\
+In addition to the work enclosed herein, documentation such as pinout, schematic and layout, including the entire altium project, can all be found on the \texttt{SDU-Embedded:swarm\_bot} github \cite{github}.
