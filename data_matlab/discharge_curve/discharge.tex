@@ -8,9 +8,9 @@
 \begin{tikzpicture}
 
 \begin{axis}[%
-width=9.688in,
-height=3.396in,
-at={(1.625in,0.458in)},
+width=0.951\linewidth,
+height=0.333\linewidth,
+at={(0\linewidth,0\linewidth)},
 scale only axis,
 xmin=0,
 xmax=9000,
@@ -352,6 +352,13 @@ legend style={legend cell align=left, align=left, draw=white!15!black}
 8760	5.52\\
 };
 \addlegendentry{Discharge Current - 1A}
+
+\addplot [color=red, dashed]
+  table[row sep=crcr]{%
+0	6.1\\
+9000	6.1\\
+};
+\addlegendentry{DC/DC Cutout Voltage}
 
 \end{axis}
 \end{tikzpicture}%
